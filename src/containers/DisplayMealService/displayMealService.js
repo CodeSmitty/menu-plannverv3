@@ -24,7 +24,7 @@ const DisplayMealService = ({ mealData}) => {
   const sideOneItems = arrReducer(mealData.service.sideOne);
   const sideTwoItems = arrReducer(mealData.service.sideTwo);
 
-  
+  console.log(entreItems)
   return (
     <div className="displayMealService-wrapper" key={mealData[0]}>
       <img className="img-prev" src={mealData.service.image} alt='img' />

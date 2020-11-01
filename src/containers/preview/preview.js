@@ -37,8 +37,7 @@ const Preview = (props) => {
             ? x.date === props.dates && x.serviceType[0] === "dinner"
             : null;
         });
-        console.log(filteredLunch)
-        console.log(filteredDinner)
+        
         const dataArr = [];
 
         const dataBase = snapshot.val();
@@ -53,36 +52,39 @@ const Preview = (props) => {
   }, [props.dates]);
 
   useEffect(() => {
-    console.log(database)
+    console.log('database mounted')
   }, [database, props.dates]);
 
-    // const test = Object.values(database)
-    //   .filter((x) => {
+    const test = Object.values(database)
+      .filter((x) => {
+        console.log(x )
+        console.log(x ? x[0].date === props.dates : 'no data')
+        return x ? x : null;
+      })
+      .map((x, i) => {
+       
   
-    //     return x ? x.date === props.dates : null;
-    //   })
-    //   .map((x, i) => {
-    //    console.log(x)
-    //     if (x.serviceType[0] === 'lunch') {
-    //       console.log(x)
-    //       return (
-    //         <div className="lunch-container" key={i}>
-    //           <DisplayMealService  mealData={x} />
-    //         </div>
-    //       );
-    //     } else if (x.serviceType[0] === 'dinner') {
-    //       return (
-    //         <div className="lunch-container" key={i}>
-    //           <DisplayMealService mealData={x} />
-    //         </div>
-    //       );
-    //     } else {
-    //       console.log("no service");
-    //     }
-    //   });
+          if (x ? x[1].serviceType[0] === "lunch" : x) {
+            console.log("lunch", x[1]);
+            return (
+              <div className="lunch-container" key={i}>
+                <DisplayMealService mealData={x[1]} />
+              </div>
+            );
+          } else if (x ? x[0].serviceType[0] === "dinner" : x) {
+            console.log("dinner");
+            return (
+              <div className="lunch-container" key={i}>
+                <DisplayMealService mealData={x[0]} />
+              </div>
+            );
+          } else {
+            console.log("no service");
+          }
+         })
 
   return <div className='preview-container'>
-    
+    {test}
   </div>;
 };
 
