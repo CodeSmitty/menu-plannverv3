@@ -4,70 +4,86 @@ import "./preview.scss";
 import firebase from "../../utility/firebase.utility";
 //import axios from "../../utility/axios.orders";
 import DisplayMealService from "../DisplayMealService/displayMealService";
-import {useDatabase } from '../../utility/utility.functions';
+//import {useDatabase } from '../../utility/utility.functions';
 
 const Preview = (props) => {
-  //const [state, dispatch] = useContext(Context);
-  const vegLogo = require("../../assets/vegetarianIcon.png");
-  const glutenLogo = require("../../assets/glutenFree.png");
-  const dairyFree = require("../../assets/dairyfree.png");
+ 
 
   const [database, setDatabase] = useState({
-    key: null,
-    data: null,
+    lunch: null,
+    dinner: null,
   });
   const db = () => firebase.database();
 
 
-  
+
+
+
   useEffect(() => {
     db();
     // console.log("mounted");
   });
 
-  useEffect(() => {
+  useEffect(() => {     
     db()
-      .ref("/meals/")
+      .ref("/meals")
       .on("value", (snapshot) => {
+        const snapValue = snapshot.val();
+        const filteredLunch = Object.values(snapValue).filter((x )=>{
+          return x ? x.date === props.dates: null;
+        });
+        const filteredDinner = Object.values(snapValue).find((x) => {
+          return x
+            ? x.date === props.dates && x.serviceType[0] === "dinner"
+            : null;
+        });
+        console.log(filteredLunch)
+        console.log(filteredDinner)
         const dataArr = [];
 
         const dataBase = snapshot.val();
-
+      
+        
         for (let id in dataBase) {
           dataArr.push({ id, ...dataBase[id] });
         }
 
-        setDatabase(dataArr);
+        setDatabase({filteredLunch});
       });
-  }, []);
+  }, [props.dates]);
 
   useEffect(() => {
-    //console.log(database);
-  }, [database]);
+    console.log(database)
+  }, [database, props.dates]);
 
-  const test = Object.values(database)
-    .filter((x) => {
-      return x ? x.date === props.dates : null;
-    })
-    .map((x, i) => {
-      if (x.mealService.serviceType.lunch === true) {
-        return (
-          <div className="lunch-container" key={i}>
-            <DisplayMealService mealService={x.mealService} />
-          </div>
-        );
-      } else if (x.mealService.serviceType.dinner === true) {
-        return (
-          <div className="lunch-container" key={i}>
-            <DisplayMealService mealService={x.mealService} />
-          </div>
-        );
-      } else {
-        console.log("no service");
-      }
-    });
+    // const test = Object.values(database)
+    //   .filter((x) => {
+  
+    //     return x ? x.date === props.dates : null;
+    //   })
+    //   .map((x, i) => {
+    //    console.log(x)
+    //     if (x.serviceType[0] === 'lunch') {
+    //       console.log(x)
+    //       return (
+    //         <div className="lunch-container" key={i}>
+    //           <DisplayMealService  mealData={x} />
+    //         </div>
+    //       );
+    //     } else if (x.serviceType[0] === 'dinner') {
+    //       return (
+    //         <div className="lunch-container" key={i}>
+    //           <DisplayMealService mealData={x} />
+    //         </div>
+    //       );
+    //     } else {
+    //       console.log("no service");
+    //     }
+    //   });
 
-  return <div>{test}</div>;
+  return <div className='preview-container'>
+    
+  </div>;
 };
 
 export default Preview;

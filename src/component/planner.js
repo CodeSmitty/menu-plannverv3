@@ -1,38 +1,35 @@
-import React, {useState} from 'react';
-import ServiceForm from '../containers/serviceForm/serviceForm';
-import Preview from '../containers/preview/preview';
-import moment from 'moment'
+import React, { useState } from "react";
+import ServiceForm from "../containers/serviceForm/serviceForm";
+import Preview from "../containers/preview/preview";
+import moment from "moment";
+import "./Planner.scss";
 
-const Planner = () =>{
+const Planner = () => {
+  const [date, setDate] = useState(moment(new Date()));
 
-    const [count, setCount] = useState(0);
+  const prevDay = () => {
+    setDate(moment(date).subtract(1, "days"));
+  };
 
-   const [date, setDate] = useState(
-    moment(new Date())
-   );
-   
-   const prevDay = ()=>{
-    setDate(moment(date).subtract(1, 'days'));
-   
-   };
+  const nextDay = () => {
+    setDate(moment(date).add(1, "days"));
+  };
 
-   const nextDay = () =>{
-       setDate(moment(date).add(1, 'days'));
-   }
-
- 
-
-    
-    return (
-      <div>
-        <button onClick={prevDay}>prev</button>
-        <p>{date.format("MMM Do YY")}</p>
-        <button onClick={nextDay}>next</button>
-        <Preview dates={date.format("MMM Do YY")} />
+  return (
+    <div className="planner-container">
+      <div className="titles-wrapper">
+        <div class="date-arrow">
+          <p className="planner-title">Meal Items</p>
+          <button onClick={prevDay}>&#xab;</button>
+          <p>{date.format("MMM Do YY")}</p>
+          <button onClick={nextDay}>&#xbb;</button>
+        </div>
         <ServiceForm dates={date.format("MMM Do YY")} />
       </div>
-    );
-};
 
+      <Preview className="preview-planner" dates={date.format("MMM Do YY")} />
+    </div>
+  );
+};
 
 export default Planner;

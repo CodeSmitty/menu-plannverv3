@@ -1,44 +1,155 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import "./serviceform.scss";
-import { Context } from "../../utility/reducers";
-import Uploader from "../uploader/uploader";
-import axios from "../../utility/axios.orders";
-//import moment from "moment";
-//import firebase from "../../utility/firebase.utility";
-import { useDatabase } from "../../utility/utility.functions";
+import {useStore} from "../../utility/reducers";
+import ImageSelector from "../ImageSelector/ImageSelector";
+//import axios from "../../utility/axios.orders";
+import firebase from "../../utility/firebase.utility";
+import { storage } from "../../utility/firebase.utility";
 
 const ServiceForm = (props) => {
-  const [state, dispatch] = useContext(Context);
+  const [state, dispatch] = useStore();
+  const [image, setImage] = useState(null);
+  //const [url, setUrl] = useState("");
+  const [progress, setProgress] = useState(0);
+  const [error, setError] = useState("");
+  const [database, setDatabase] = useState(null);
+  const [placeholderData, setPlaceholderData] = useState({});
+  const db = () => firebase.database();
 
-  const [newState, setNewState] = useState({
-    id: null,
-    date: null,
-    serviceType: {
-      lunch: null,
-      dinner: null,
-    },
-    mealService: null,
-  });
-  //const [updatedState, setUpdatedState] = useState(null)
+  const handleChange = (e) => {
+    const file = e.target.files[0];
+
+    if (file) {
+      const fileType = file["type"];
+      const validationType = ["image/gif", "image/jpeg", "image/png"];
+
+      if (validationType.includes(fileType)) {
+        setError("");
+        setImage(file);
+      } else {
+        setError("Please select a correct image file type");
+      }
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    setNewState({
-      ...newState,
-      date: props.dates,
-      mealService: state,
-    });
+    if (image) {
+      const uploadTask = storage.ref(`images/${image.name}`).put(image);
+
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const progress = Math.round(
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          );
+
+          setProgress(progress);
+        },
+        (error) => {
+          setError(error);
+        },
+        () => {
+          storage
+            .ref("images")
+            .child(image.name)
+            .getDownloadURL()
+            .then((url) => {
+              const value = state.serviceType;
+              const keys = Object.keys(value);
+              var filtered = keys.filter(function (key) {
+                return value[key];
+              });
+
+              const mealData = db().ref().child("meals");
+              
+              
+              const dateKey = props.dates + filtered;
+
+              const userRef = db().ref("meals");
+
+              userRef.once("value", (snapshot) => {
+                if (!snapshot.hasChild(dateKey)) {
+                  mealData.child(dateKey).set({
+                    date: props.dates,
+                    serviceId: dateKey,
+                    serviceType: filtered,
+                    service: state,
+                  });
+                } else if (snapshot.hasChild(dateKey)) {
+                  db()      
+                    .ref(dateKey)
+                    .once("value", (snap) => {
+                      console.log(snap.val());
+                      mealData.child(dateKey).update({
+                        service: state,
+                      });
+                    });
+                }
+              });
+              
+              setProgress(0);
+            });
+        }
+      );
+    }
+    dispatch({ type: 'reset' });
   };
 
   useEffect(() => {
-    axios
-      .post(`/meals.json`, newState)
-      .then((res) => {})
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [newState]);
+    if (props.dates) {
+      setPlaceholderData({});
+    }
+  
+      db()
+        .ref("meals/")
+        .on("value", (snapshot) => {
+          const snapValue = snapshot.val();
+          const lunchOrDinnerValues = snapValue
+            ? Object.values(snapValue)
+                .filter((x) => {
+                  return x? x.date === props.dates && x.serviceType[0] === database : null
+                  
+                })
+                .map((x) => x.date)
+            : null;
+          if (lunchOrDinnerValues ?  lunchOrDinnerValues[0] === props.dates : null) {
+            const serviceData = snapValue
+              ? Object.values(snapValue).find((x) => {
+                  return (
+                    x.date === props.dates && x.serviceType[0] === database
+                  );
+                })
+              : null;
+               
+            setPlaceholderData({ serviceData });
+            
+          };
+        });
+    
+  
+   
+  }, [database, props.dates]);
+
+
+
+  const entre =
+    placeholderData &&
+    placeholderData.serviceData &&
+    placeholderData.serviceData.service.entre.value;
+  const sideOne =
+    placeholderData &&
+    placeholderData.serviceData &&
+    placeholderData.serviceData.service.sideOne.value;
+  const sideTwo =
+    placeholderData &&
+    placeholderData.serviceData &&
+    placeholderData.serviceData.service.sideTwo.value;
+  const description =
+    placeholderData &&
+    placeholderData.serviceData &&
+    placeholderData.serviceData.service.description.value;
 
   return (
     <div className="container-box">
@@ -52,7 +163,8 @@ const ServiceForm = (props) => {
               onChange={(event) => {
                 dispatch({ type: "ENTRE_TEXT", payload: event.target.value });
               }}
-              placeholder="entree"
+              value={state.entre.value ? state.entre.value : entre}
+              placeholder={entre ? entre : "entree"}
             />
             <div className="diets">
               <input
@@ -95,7 +207,8 @@ const ServiceForm = (props) => {
                 dispatch({ type: "SIDE_TEXT", payload: event.target.value });
               }}
               name="sideOne"
-              placeholder="Side One"
+              value={state.sideOne.value}
+              placeholder={sideOne ? sideOne : "First Side"}
             />
             <div className="diets">
               <input
@@ -137,7 +250,8 @@ const ServiceForm = (props) => {
                 dispatch({ type: "SIDETWO_TEXT", payload: event.target.value });
               }}
               name="entre.value"
-              placeholder="Side Two"
+              value={state.sideTwo.value}
+              placeholder={sideTwo ? sideTwo : "Second Side"}
             />
             <div className="diets">
               <input
@@ -180,8 +294,9 @@ const ServiceForm = (props) => {
                   payload: event.target.value,
                 });
               }}
+              value={state.description.value}
               name="description"
-              placeholder="description"
+              placeholder={description ? description : "Description"}
             />
             <div className="diets">
               <input
@@ -213,8 +328,12 @@ const ServiceForm = (props) => {
                 type="checkbox"
               />
               <label>Dairy</label>
+            </div>
+            <div class="serviceType-checkboxes">
               <input
+                className="svc-type"
                 onChange={(e) => {
+                  setDatabase(e.target.name);
                   dispatch({ type: "LUNCH", payload: e.target.name });
                 }}
                 checked={state.serviceType.lunch}
@@ -223,7 +342,9 @@ const ServiceForm = (props) => {
               />
               <label>Lunch</label>
               <input
+                className="svc-type"
                 onChange={(e) => {
+                  setDatabase(e.target.name);
                   dispatch({ type: "DINNER", payload: e.target.name });
                 }}
                 checked={state.serviceType.dinner}
@@ -231,12 +352,17 @@ const ServiceForm = (props) => {
                 type="checkbox"
               />
               <label>Dinner</label>
+              <ImageSelector
+                error={error}
+                progress={progress}
+                handleChange={handleChange}
+                className="uploader"
+              />
+              <button className="submit-btn" onClick={handleSubmit}>
+                submit
+              </button>
             </div>
           </div>
-          <Uploader className="uploader" />
-          <button className="submit-btn" onClick={handleSubmit}>
-            submit
-          </button>
         </div>
       </form>
     </div>
@@ -244,13 +370,3 @@ const ServiceForm = (props) => {
 };
 
 export default ServiceForm;
-
-//  updatedState.filter((meal) => {
-//    const newId = firebase.database().ref("meals").child(meal.id);
-
-//    if (newId) {
-//      newId.update(newState);
-//    } else {
-//      console.log("id doesnt click");
-//    }
-//  });

@@ -1,10 +1,12 @@
-import React, {createContext, useReducer} from 'react';
+import React, {createContext, useContext, useReducer} from 'react';
 
+
+const storeContext = createContext();
 
  const service = {
    serviceType:{
-     lunch:false,
-     dinner:false
+     lunch:"",
+     dinner:""
    },
    entre: {
      value: "",
@@ -34,9 +36,42 @@ import React, {createContext, useReducer} from 'react';
    
  };
 
- const newState = null;
 
- const reducer = (state, action) => {
+ const defaultState = {
+   serviceType: {
+     lunch: "",
+     dinner: "",
+   },
+   entre: {
+     value: "",
+     veg: false,
+     glut: false,
+     dairy: false,
+   },
+   sideOne: {
+     value: "",
+     veg: false,
+     glut: false,
+     dairy: false,
+   },
+   sideTwo: {
+     value: "",
+     veg: false,
+     glut: false,
+     dairy: false,
+   },
+   description: {
+     value: "",
+     veg: false,
+     glut: false,
+     dairy: false,
+   },
+   image: null,
+ };
+
+
+
+ const reducer = (state=service , action) => {
   
   switch (action.type) {
     case "ENTRE":
@@ -126,8 +161,8 @@ import React, {createContext, useReducer} from 'react';
           [action.payload]:!state.serviceType[action.payload]
         },
       };
-    case "DEFAULT":
-      return service;
+    case "reset":
+      return {...defaultState}
     case "SUBMITTED":
       return {
         ...state,
@@ -149,13 +184,13 @@ const Store = ({children}) =>{
     const [state, dispatch] = useReducer(reducer, service);
 
     return(
-        <Context.Provider value={[state,dispatch]} >
+        <storeContext.Provider value={[state,dispatch]} >
             {children}
-        </Context.Provider>
+        </storeContext.Provider>
     )
 };
 
-export const Context = createContext(service)
+export const useStore =()=> useContext(storeContext);
 
 
 export default Store;

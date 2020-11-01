@@ -4,7 +4,7 @@ const vegLogo = require("../../assets/vegetarianIcon.png");
 const glutenLogo = require("../../assets/glutenFree.png");
 const dairyFree = require("../../assets/dairyfree.png");
 
-const DisplayMealService = ({ mealService }, props) => {
+const DisplayMealService = ({ mealData}) => {
   const imageMap = {
     veg: vegLogo,
     glut: glutenLogo,
@@ -19,27 +19,30 @@ const DisplayMealService = ({ mealService }, props) => {
       return accumulator;
     }, []);
 
-  const entreItems = arrReducer(mealService.entre);
+  const entreItems = arrReducer(mealData.service.entre);
 
-  const sideOneItems = arrReducer(mealService.sideOne);
-  const sideTwoItems = arrReducer(mealService.sideTwo);
+  const sideOneItems = arrReducer(mealData.service.sideOne);
+  const sideTwoItems = arrReducer(mealData.service.sideTwo);
 
+  
   return (
-    <div className="displayMealService-wrapper" key={props.keyProp}>
-      <img className="img-prev" src={mealService.image} />
-      <p className="entre-text">{mealService.entre.value}</p>
+    <div className="displayMealService-wrapper" key={mealData[0]}>
+      <img className="img-prev" src={mealData.service.image} alt='img' />
+      <p className="entre-text">{mealData.service.entre.value}</p>
       {entreItems.map((e, i) => (
         <img key={i} src={imageMap[e]} alt="e" />
       ))}
-      <p className="sideOne-text">{mealService.sideOne.value}</p>
+      <p className="sideOne-text">{mealData.service.sideOne.value}</p>
       {sideOneItems.map((e, i) => (
         <img key={i} src={imageMap[e]} alt="e" />
       ))}
-      <p className="sideTwo-text">{mealService.sideTwo.value}</p>
+      <p className="sideTwo-text">{mealData.service.sideTwo.value}</p>
       {sideTwoItems.map((e, i) => (
         <img key={i} src={imageMap[e]} alt="e" />
       ))}
-      <p className="description-text">{mealService.description.value}</p>
+      <p className="description-text">
+        {mealData.service.description.value}
+      </p>
     </div>
   );
 };
