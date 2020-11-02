@@ -15,6 +15,7 @@ const Planner = () => {
     setDate(moment(date).add(1, "days"));
   };
 
+  
   return (
     <div className="planner-container">
       <div className="titles-wrapper">

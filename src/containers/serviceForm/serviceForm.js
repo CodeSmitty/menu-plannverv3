@@ -56,6 +56,7 @@ const ServiceForm = (props) => {
             .child(image.name)
             .getDownloadURL()
             .then((url) => {
+              dispatch({type:'IMAGE', payload:url})
               const value = state.serviceType;
               const keys = Object.keys(value);
               var filtered = keys.filter(function (key) {

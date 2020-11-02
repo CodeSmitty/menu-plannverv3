@@ -19,29 +19,29 @@ const DisplayMealService = ({ mealData}) => {
       return accumulator;
     }, []);
 
-  const entreItems = arrReducer(mealData.service.entre);
+  const entreItems = arrReducer(mealData.entre);
 
-  const sideOneItems = arrReducer(mealData.service.sideOne);
-  const sideTwoItems = arrReducer(mealData.service.sideTwo);
+  const sideOneItems = arrReducer(mealData.sideOne);
+  const sideTwoItems = arrReducer(mealData.sideTwo);
 
-  console.log(entreItems)
+  
   return (
     <div className="displayMealService-wrapper" key={mealData[0]}>
-      <img className="img-prev" src={mealData.service.image} alt='img' />
-      <p className="entre-text">{mealData.service.entre.value}</p>
+      <img className="img-prev" src={mealData.image} alt='img' />
+      <p className="entre-text">{mealData.entre.value}</p>
       {entreItems.map((e, i) => (
         <img key={i} src={imageMap[e]} alt="e" />
       ))}
-      <p className="sideOne-text">{mealData.service.sideOne.value}</p>
+      <p className="sideOne-text">{mealData.sideOne.value}</p>
       {sideOneItems.map((e, i) => (
         <img key={i} src={imageMap[e]} alt="e" />
       ))}
-      <p className="sideTwo-text">{mealData.service.sideTwo.value}</p>
+      <p className="sideTwo-text">{mealData.sideTwo.value}</p>
       {sideTwoItems.map((e, i) => (
         <img key={i} src={imageMap[e]} alt="e" />
       ))}
       <p className="description-text">
-        {mealData.service.description.value}
+        {mealData.description.value}
       </p>
     </div>
   );
