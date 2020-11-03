@@ -25,16 +25,16 @@ const Preview = (props) => {
       .on("value", (snapshot) => {
         const snapValue = snapshot.val();
 
-        const filteredLunch = Object.values(snapValue).find((x) => {
+        const filteredLunch = snapValue ? Object.values(snapValue).find((x) => {
           return x
             ? x.date === props.dates && x.serviceType[0] === "lunch"
             : null;
-        });
-        const filteredDinner = Object.values(snapValue).find((x) => {
+        }) : null;
+        const filteredDinner = snapValue ? Object.values(snapValue).find((x) => {
           return x
             ? x.date === props.dates && x.serviceType[0] === "dinner"
             : null;
-        });
+        }) :null;
 
         const dataArr = [];
 
@@ -56,23 +56,25 @@ const Preview = (props) => {
   }, [database, props.dates]);
 
   const dinner = database && database.dinner ? database.dinner.service : null;
+  const dinnerImg = database && database.dinner ? database.dinner.image : null;
 
   const lunch = database && database.lunch ? database.lunch.service : null;
+  const lunchImg = database && database.lunch ? database.lunch.image : null;
+  
 
   return (
     <div className="preview-container">
-      <div className='meal-container'>
-        {dinner ? (
-          <div className='lunch-container'>
-          <DisplayMealService mealData={dinner} />
+      <div className="meal-container">
+        {lunch ? (
+          <div className="lunch-container">
+            <DisplayMealService mealData={lunch} imgs={lunchImg} />
           </div>
         ) : (
           <div></div>
         )}
-     
         {dinner ? (
-          <div className='lunch-container'>
-          <DisplayMealService mealData={lunch} />
+          <div className="lunch-container">
+            <DisplayMealService mealData={dinner} imgs={dinnerImg} />
           </div>
         ) : (
           <div></div>

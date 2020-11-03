@@ -26,9 +26,7 @@ const ServiceForm = (props) => {
       if (validationType.includes(fileType)) {
         setError("");
         setImage(file);
-      } else {
-        setError("Please select a correct image file type");
-      }
+      } 
     }
   };
 
@@ -56,7 +54,8 @@ const ServiceForm = (props) => {
             .child(image.name)
             .getDownloadURL()
             .then((url) => {
-              dispatch({type:'IMAGE', payload:url})
+              console.log(url)
+              //dispatch({type:'IMAGE', payload:url})
               const value = state.serviceType;
               const keys = Object.keys(value);
               var filtered = keys.filter(function (key) {
@@ -70,25 +69,28 @@ const ServiceForm = (props) => {
 
               const userRef = db().ref("meals");
 
-              userRef.once("value", (snapshot) => {
-                if (!snapshot.hasChild(dateKey)) {
-                  mealData.child(dateKey).set({
-                    date: props.dates,
-                    serviceId: dateKey,
-                    serviceType: filtered,
-                    service: state,
-                  });
-                } else if (snapshot.hasChild(dateKey)) {
-                  db()      
-                    .ref(dateKey)
-                    .once("value", (snap) => {
-                      console.log(snap.val());
-                      mealData.child(dateKey).update({
-                        service: state,
-                      });
+        if(url){
+                userRef.once("value", (snapshot) => {
+                  if (!snapshot.hasChild(dateKey)) {
+                    mealData.child(dateKey).set({
+                      date: props.dates,
+                      serviceId: dateKey,
+                      serviceType: filtered,
+                      service: state,
+                      image:url
                     });
-                }
-              });
+                  } else if (snapshot.hasChild(dateKey)) {
+                    db()
+                      .ref(dateKey)
+                      .once("value", (snap) => {
+                        console.log(snap.val());
+                        mealData.child(dateKey).update({
+                          service: state,
+                        });
+                      });
+                  }
+                });
+        }
               
               setProgress(0);
             });
