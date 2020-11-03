@@ -1,38 +1,50 @@
 .date-arrow{
-    width:20%;
-    margin-top:30px;
+    width:100%;
     padding:0;
     display:flex;
     flex-flow:row wrap;
     height:40px;
-   
-   
 }
 
-
+.form-preview-container{
+    width:100%;
+    display:flex;
+    flex-flow:row nowrap;
+}
 
 .planner-container{
    width:100%;
     margin-top:150px;
     display:flex;
-    justify-content: space-around;
+    flex-flow:row wrap;
 }
 
-.preview-planner, .titles-wrapper{
+.serviceform-container{
+    padding-right:100px;
+}
+
+
+
+
+
+
+.titles-wrapper{
     flex: 1 1 auto;
     
 }
 
 .planner-title, .date-arrow{
-    flex:0  50%;
+    flex:0 0 auto;
+    margin-left:10%;
 }
 
 .titles-wrapper{
     display:flex;
     flex-flow:row wrap;
-    width:70%;
-    
-    margin:auto;
+    width:40%;
+    height:40px;
+    padding:0;
+    margin:0;
 }
 
 

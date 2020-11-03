@@ -15,7 +15,7 @@ const Planner = () => {
     setDate(moment(date).add(1, "days"));
   };
 
-  
+
   return (
     <div className="planner-container">
       <div className="titles-wrapper">
@@ -25,10 +25,13 @@ const Planner = () => {
           <p>{date.format("MMM Do YY")}</p>
           <button onClick={nextDay}>&#xbb;</button>
         </div>
-        <ServiceForm dates={date.format("MMM Do YY")} />
       </div>
-
-      <Preview className="preview-planner" dates={date.format("MMM Do YY")} />
+      <div className="form-preview-container">
+        <div className="serviceform-container">
+          <ServiceForm dates={date.format("MMM Do YY")} />
+        </div>
+        <Preview className="preview-planner" dates={date.format("MMM Do YY")} />
+      </div>
     </div>
   );
 };

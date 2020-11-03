@@ -157,7 +157,7 @@ const ServiceForm = (props) => {
   return (
     <div className="container-box">
       <form onSubmit={handleSubmit} className="form">
-        <div className="meal-container">
+        <div className="form-container">
           <div className="entre-form">
             <input
               className="input-text"
