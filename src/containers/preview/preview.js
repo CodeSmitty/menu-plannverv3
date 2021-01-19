@@ -14,11 +14,11 @@ const Preview = (props) => {
   });
   const db = () => firebase.database();
 
-  console.log(props)
+
 
   useEffect(() => {
     db();
-    console.log("mounted");
+   // console.log("mounted");
   });
 
   useEffect(() => {

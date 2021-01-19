@@ -14,35 +14,37 @@ const DisplayMealService = (props) => {
 
 
   const arrReducer = (obj) =>
-    Object.entries(obj).reduce((accumulator, [k, v]) => {
+   obj? Object.entries(obj).reduce((accumulator, [k, v]) => {
+      
       if (k !== "value" && v) {
+        
         accumulator.push(k);
       }
       return accumulator;
-    }, []);
+    }, []):null;
 
-  const entreItems = arrReducer(props.mealData.entre);
+  const entreItems = arrReducer(props.mealData ?props.mealData?.entre:null);
 
-  const sideOneItems = arrReducer(props.mealData.sideOne);
-  const sideTwoItems = arrReducer(props.mealData.sideTwo);
+  const sideOneItems = arrReducer(props.mealData ? props.mealData?.sideOne:null);
+  const sideTwoItems = arrReducer(props.mealData ?props.mealData?.sideTwo:null);
   
   return (
-    <div className="displayMealService-wrapper" key={props.mealData[0]}>
-      <img className="img-prev" src={props.imgs} alt='img' />
-      <p className="entre-text">{props.mealData.entre.value}</p>
-      {entreItems.map((e, i) => (
+    <div className="displayMealService-wrapper" >
+      <img className={props.imgs ? "img-prev": "img-hid"} src={props.imgs} alt='img' />
+      <p className="entre-text">{props?.mealData?.entre?.value}</p>
+      {entreItems?.map((e, i) => (
         <img key={i} src={imageMap[e]} alt="e" />
       ))}
-      <p className="sideOne-text">{props.mealData.sideOne.value}</p>
-      {sideOneItems.map((e, i) => (
+      <p className="sideOne-text">{props?.mealData?.sideOne?.value}</p>
+      {sideOneItems?.map((e, i) => (
         <img key={i} src={imageMap[e]} alt="e" />
       ))}
-      <p className="sideTwo-text">{props.mealData.sideTwo.value}</p>
-      {sideTwoItems.map((e, i) => (
+      <p className="sideTwo-text">{props?.mealData?.sideTwo?.value}</p>
+      {sideTwoItems?.map((e, i) => (
         <img key={i} src={imageMap[e]} alt="e" />
       ))}
       <p className="description-text">
-        {props.mealData.description.value}
+        {props?.mealData?.description?.value}
       </p>
     </div>
   );
