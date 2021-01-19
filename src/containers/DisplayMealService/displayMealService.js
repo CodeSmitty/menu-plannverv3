@@ -11,6 +11,8 @@ const DisplayMealService = (props) => {
     dairy: dairyFree,
   };
 
+
+
   const arrReducer = (obj) =>
     Object.entries(obj).reduce((accumulator, [k, v]) => {
       if (k !== "value" && v) {

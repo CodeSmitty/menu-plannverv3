@@ -1,133 +1,106 @@
-import React, {createContext, useContext, useReducer} from 'react';
-
+import React, { createContext, useContext, useReducer } from "react";
 
 const storeContext = createContext();
 
- const service = {
-   serviceType:{
-     lunch:"",
-     dinner:""
-   },
-   entre: {
-     value: "",
-     veg: false,
-     glut: false,
-     dairy: false,
-   },
-   sideOne: {
-     value: "",
-     veg: false,
-     glut: false,
-     dairy: false,
-   },
-   sideTwo: {
-     value: "",
-     veg: false,
-     glut: false,
-     dairy: false,
-   },
-   description: {
-     value: "",
-     veg: false,
-     glut: false,
-     dairy: false,
-   },
-   image:null
-   
- };
+const service = {
+  serviceType: {
+    lunch: "",
+    dinner: "",
+  },
+  entre: {
+    value: "",
+    veg: false,
+    glut: false,
+    dairy: false,
+  },
+  sideOne: {
+    value: "",
+    veg: false,
+    glut: false,
+    dairy: false,
+  },
+  sideTwo: {
+    value: "",
+    veg: false,
+    glut: false,
+    dairy: false,
+  },
+  description: {
+    value: "",
+    veg: false,
+    glut: false,
+    dairy: false,
+  },
+  image: null,
+};
 
+//  {
+//         ...state,
+//         entre: {
+//           ...state.entre,
+//           [action.payload]: !state.entre[action.payload],
+//         },
+//       };
 
- const defaultState = {
-   serviceType: {
-     lunch: "",
-     dinner: "",
-   },
-   entre: {
-     value: "",
-     veg: false,
-     glut: false,
-     dairy: false,
-   },
-   sideOne: {
-     value: "",
-     veg: false,
-     glut: false,
-     dairy: false,
-   },
-   sideTwo: {
-     value: "",
-     veg: false,
-     glut: false,
-     dairy: false,
-   },
-   description: {
-     value: "",
-     veg: false,
-     glut: false,
-     dairy: false,
-   },
-   image: null,
- };
-
-
-
- const reducer = (state=service , action) => {
-  
+const reducer = (state = service, action) => {
   switch (action.type) {
-    case "ENTRE":
+    case "ENTRE" :
+      const servType = action.servType;
+
       return {
         ...state,
-        entre: {
-          ...state.entre,
-          [action.payload]: !state.entre[action.payload],
+        [servType]: {
+          ...state[servType],
+          [action.payload]: !state[servType][action.payload],
         },
       };
+
     case "ENTRE_TEXT":
       return {
         ...state,
-        entre: {
-          ...state.entre,
+        [action.servType]: {
+          ...state[action.servType],
           value: action.payload,
         },
       };
-    case "SIDE_TEXT":
+    case "SIDEONE_TEXT":
       return {
         ...state,
-        sideOne: {
-          ...state.sideOne,
+        [action.servType]: {
+          ...state[action.servType],
           value: action.payload,
         },
       };
-    case "SIDE_ONE":
+    case "SIDEONE":
       return {
         ...state,
-        sideOne: {
-          ...state.sideOne,
-          [action.payload]: !state.sideOne[action.payload],
+        [action.servType]: {
+          ...state[action.servType],
+          [action.payload]: !state[action.servType][action.payload],
         },
       };
-    case "SIDE_TWO":
+    case "SIDETWO":
       return {
         ...state,
-        sideTwo: {
-          ...state.sideTwo,
-          [action.payload]: !state.sideTwo[action.payload],
+        [action.servType]: {
+          ...state[action.servType],
+          [action.payload]: !state[action.servType][action.payload],
         },
       };
     case "SIDETWO_TEXT":
       return {
         ...state,
-        sideTwo: {
-          ...state.sideTwo,
+        [action.servType]: {
+          ...state[action.servType],
           value: action.payload,
         },
       };
     case "DESCRIPTION":
       return {
         ...state,
-        description: {
-          ...state.description,
-          [action.payload]: !state.description[action.payload],
+        [action.servType]: {
+          ...state[action.servType],
+          [action.payload]: !state[action.servType][action.payload],
         },
       };
     case "DESCRIPTION_TEXT":
@@ -148,8 +121,8 @@ const storeContext = createContext();
         ...state,
         serviceType: {
           ...state.serviceType,
-          dinner:false,
-          [action.payload]: !state.serviceType[action.payload]
+          dinner: false,
+          [action.payload]: !state.serviceType[action.payload],
         },
       };
     case "DINNER":
@@ -157,12 +130,12 @@ const storeContext = createContext();
         ...state,
         serviceType: {
           ...state.serviceType,
-          lunch:false,
-          [action.payload]:!state.serviceType[action.payload]
+          lunch: false,
+          [action.payload]: !state.serviceType[action.payload],
         },
       };
     case "reset":
-      return {...defaultState}
+      return { ...state };
     case "SUBMITTED":
       return {
         ...state,
@@ -174,24 +147,16 @@ const storeContext = createContext();
   }
 };
 
+const Store = ({ children }) => {
+  const [state, dispatch] = useReducer(reducer, service);
 
-
-
-
-
-
-const Store = ({children}) =>{
-    const [state, dispatch] = useReducer(reducer, service);
-
-    return(
-        <storeContext.Provider value={[state,dispatch]} >
-            {children}
-        </storeContext.Provider>
-    )
+  return (
+    <storeContext.Provider value={[state, dispatch]}>
+      {children}
+    </storeContext.Provider>
+  );
 };
 
-export const useStore =()=> useContext(storeContext);
-
+export const useStore = () => useContext(storeContext);
 
 export default Store;
-

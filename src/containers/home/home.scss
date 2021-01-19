@@ -1,0 +1,35 @@
+.home-section{
+    margin-top:200px;
+    width:100%;
+}
+
+.service-container{
+    display:flex;
+    flex-flow:row nowrap;
+    justify-content: center;
+}
+
+.lunch-container-home{
+    height:380px;
+    width:150px;
+    overflow: auto;
+    box-shadow: 0 3px 5px 1px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    margin:auto;
+    flex:0 0 auto;
+}
+
+
+@media only screen and (max-width:780px){
+
+    .service-container{
+        width:100%;
+        flex-flow:row wrap;
+        margin:0 auto;
+    }
+
+    .lunch-container-home{
+        width:80%;
+        margin:auto;
+    }
+}

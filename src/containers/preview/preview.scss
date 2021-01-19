@@ -43,10 +43,7 @@
     font-size:15px;
 }
 
-::-webkit-scrollbar {
-    width: 0px;  /* Remove scrollbar space */
-    background: transparent;  /* Optional: just make scrollbar invisible */
-}
+
 
 ::-webkit-scrollbar-thumb {
     
@@ -58,10 +55,7 @@
     padding-bottom:10px;
 }
 
-.displayMealService-wrapper{
-    position:absolute;
-  
-}
+
 
 .line{
     width:80%;

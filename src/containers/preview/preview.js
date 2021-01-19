@@ -14,9 +14,11 @@ const Preview = (props) => {
   });
   const db = () => firebase.database();
 
+  console.log(props)
+
   useEffect(() => {
     db();
-    // console.log("mounted");
+    console.log("mounted");
   });
 
   useEffect(() => {
@@ -25,16 +27,20 @@ const Preview = (props) => {
       .on("value", (snapshot) => {
         const snapValue = snapshot.val();
 
-        const filteredLunch = snapValue ? Object.values(snapValue).find((x) => {
-          return x
-            ? x.date === props.dates && x.serviceType[0] === "lunch"
-            : null;
-        }) : null;
-        const filteredDinner = snapValue ? Object.values(snapValue).find((x) => {
-          return x
-            ? x.date === props.dates && x.serviceType[0] === "dinner"
-            : null;
-        }) :null;
+        const filteredLunch = snapValue
+          ? Object.values(snapValue).find((x) => {
+              return x
+                ? x.date === props.dates && x.serviceType[0] === "lunch"
+                : null;
+            })
+          : null;
+        const filteredDinner = snapValue
+          ? Object.values(snapValue).find((x) => {
+              return x
+                ? x.date === props.dates && x.serviceType[0] === "dinner"
+                : null;
+            })
+          : null;
 
         const dataArr = [];
 
@@ -52,7 +58,7 @@ const Preview = (props) => {
   }, [props.dates]);
 
   useEffect(() => {
-   // console.log("database mounted:", database);
+    // console.log("database mounted:", database);
   }, [database, props.dates]);
 
   const dinner = database && database.dinner ? database.dinner.service : null;
@@ -60,7 +66,6 @@ const Preview = (props) => {
 
   const lunch = database && database.lunch ? database.lunch.service : null;
   const lunchImg = database && database.lunch ? database.lunch.image : null;
-  
 
   return (
     <div className="preview-container">
