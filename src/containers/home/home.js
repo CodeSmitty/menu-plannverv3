@@ -61,15 +61,17 @@ const Home = (props) => {
               })
             : null;
 
-          let obj = {
+          let mealsByDayOfTheWeek = {
             [dayOfWeek]: mealss,
           };
-          mealArr.push(obj);
+          mealArr.push(mealsByDayOfTheWeek);
+          return day
         });
-
+        
         const mealsOfTheDay = mealArr
           ? mealArr.map((meal, i) => {
-              console.log(meal)
+              let days = getMealsByDate.map(x =>x)
+              console.log(moment(days).format('dddd MMM Do'))
               let obj;
               let lunch;
               let dinner;
@@ -85,32 +87,28 @@ const Home = (props) => {
                   obj = null;
                 }
 
+                 
                 lunch = obj ? (
                   <div>
-                    <p>{meal && meal[key] ? meal[key][0]?.date : null}</p>
-                    <div
-                      className={
-                        meal
-                          ? "lunch-container-home"
-                          : "lunch-container-home-hidden"
-                      }
-                    >
-                      <DisplayMealService
-                        mealData={obj[key]?.lunch?.service}
-                        imgs={obj[key]?.lunch?.image}
-                      />
+                    <div className={"lunch-container-home"}>
+                      {obj[key]?.lunch?.service ? (
+                        <DisplayMealService
+                          mealData={obj[key]?.lunch?.service}
+                          imgs={obj[key]?.lunch?.image}
+                        />
+                      ) : (
+                        <p>no service</p>
+                      )}
                     </div>
-                    <div
-                      className={
-                        meal 
-                          ? "lunch-container-home"
-                          : "lunch-container-home-hidden"
-                      }
-                    >
-                      <DisplayMealService
-                        mealData={obj[key]?.dinner?.service}
-                        imgs={obj[key]?.dinner?.image}
-                      />
+                    <div className={"lunch-container-home"}>
+                      {obj[key]?.dinner?.service ? (
+                        <DisplayMealService
+                          mealData={obj[key]?.dinner?.service}
+                          imgs={obj[key]?.dinner?.image}
+                        />
+                      ) : (
+                        <p>no service</p>
+                      )}
                     </div>
                   </div>
                 ) : null;
@@ -120,31 +118,12 @@ const Home = (props) => {
             })
           : null;
 
-        console.log(mealsOfTheDay);
-
         setLunchValues(mealsOfTheDay);
-
-        let dinnerMeals = snapValue
-          ? Object.values(snapValue).map((service, i) => {
-              if (service.serviceType[0] === "dinner") {
-                let lunch = (
-                  <div key={service.date + i} className="lunch-container-home">
-                    <p>{service.date} </p>
-                    <DisplayMealService mealData={service?.service} />
-                  </div>
-                );
-
-                return lunch;
-              }
-            })
-          : null;
-
         setLunchValues(mealsOfTheDay);
 
         // setWeeklyvalues(weeklyMeals)
       });
   }, [currWeek]);
-  console.log(lunchValues);
   useEffect(() => {}, [database, currWeek, lunchValues, weeklyValue]);
 
   return (
