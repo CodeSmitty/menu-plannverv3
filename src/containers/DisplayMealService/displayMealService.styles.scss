@@ -1,14 +1,17 @@
 .displayMealService-wrapper{
-    background-color: aliceblue;
+    background-color: rgb(19, 42, 39);
     font-family: 'Times New Roman', Times, serif;
-   
+   color:white;
 }
 
-
+.diets-imgs{
+    filter:invert(.7)
+}
 
 .img-wrapper{
     height:10%;
     margin:auto;
+    background-color: rgb(10, 10, 10);
 }
 
 .img-prev{
@@ -34,7 +37,7 @@
 }
 
 
-@media only screen and (min-width:1024){
+@media only screen and (min-width:1024px){
 .displayMealService-wrapper:hover{
     z-index:999;
     box-shadow: 0 5px 10px 4px rgba(0, 0, 0, 0.5);
@@ -44,6 +47,7 @@
     .img-prev{
         width:160px;
         height:160px;
+       
     }
 }
 }

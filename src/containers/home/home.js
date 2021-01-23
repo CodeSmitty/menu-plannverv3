@@ -183,7 +183,9 @@ const Home = (props) => {
         >
           &#x3c; week
         </button>
-        {`${currWeek.format('MMM/Do')} - ${endOfWeek.format('MMM/Do')}`}
+        <div className='dates-and-titles'>
+          {`${currWeek.format('MMM/Do')} - ${endOfWeek.format('MMM/Do')}`}
+        </div>
         <button
           className={buttonOnData === true ? "next-week" : "hide-next-week"}
           onClick={nextWeek}
