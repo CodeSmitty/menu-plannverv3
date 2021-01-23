@@ -181,7 +181,7 @@ const Home = (props) => {
           className={hidePrevButton ? "prev-week" : "hide-next-week"}
           onClick={prevWeek}
         >
-          &#x3c; week"
+          &#x3c; week
         </button>
         {`${currWeek.format('MMM/Do')} - ${endOfWeek.format('MMM/Do')}`}
         <button
