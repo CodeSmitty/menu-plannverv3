@@ -31,6 +31,20 @@
     margin:auto;
 }
 
+.weekly-btns{
+    display:flex;
+    justify-content: space-between;
+    flex-flow:row wrap;
+}
+
+.prev-week{
+    float:left;
+}
+
+.next-week{
+    justify-content: flex-end;
+}
+
 
 
 
@@ -48,7 +62,7 @@
 }
 
 .hide-next-week{
-    display: none;
+    visibility: hidden;
 }
 
 

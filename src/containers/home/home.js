@@ -24,6 +24,8 @@ const Home = (props) => {
     setCurrWeek(moment(currWeek).add(1, "week"));
   };
 
+  console.log(currWeek.format('w'))
+
   const doesNextWeekExist = () => {
     db()
       .ref("meals")
@@ -68,7 +70,7 @@ const Home = (props) => {
         const snapValue = snapshot.val();
         let mealArr = [];
         let getMealsByDate = currDays.filter((day) => {
-          let dayOfWeek = moment(day).format("dddd").toLowerCase();
+          let dayOfWeek = moment(day)
           let mealss = snapValue
             ? Object?.values(snapValue)?.filter((ser) => {
                 const datesForTheWeek = moment(day).format("MMM Do YY");
@@ -79,6 +81,8 @@ const Home = (props) => {
           let mealsByDayOfTheWeek = {
             [dayOfWeek]: mealss,
           };
+
+          
           mealArr.push(mealsByDayOfTheWeek);
 
           return day;
@@ -86,15 +90,16 @@ const Home = (props) => {
 
         const mealsOfTheDay = mealArr
           ? mealArr.map((meal, i) => {
+
               let obj;
               let meals;
               let daysByName;
               for (let key in meal) {
-                // if(meal[key] === null){
-                //   setButtonOnData(false)
-                // }else{
-                //   setButtonOnData(true)
-                // }
+                let dayNames = moment(key).format('dddd').toLowerCase();
+                let datesOfWeek = moment(key).format('ddd MMM Do');
+                console.log(datesOfWeek)
+
+                console.log(meal[key])
 
                 let lunchMeals =
                   meal && meal[key]
@@ -109,10 +114,10 @@ const Home = (props) => {
                       )
                     : null;
 
-                daysByName = key;
+                daysByName = dayNames;
                 if (meal) {
                   obj = {
-                    [key]: {
+                    [dayNames]: {
                       lunch: lunchMeals ? lunchMeals[0] : null,
                       dinner: dinnerMeals ? dinnerMeals[0] : null,
                     },
@@ -121,31 +126,34 @@ const Home = (props) => {
                   obj = null;
                 }
 
+              
+              
+
                 meals = obj ? (
                   <div className="meal-wrapper">
-                    <p className="dayNames">{daysByName}</p>
+                    <p className="dayNames">{`${datesOfWeek} `}</p>
                     
                     <div className='lunch-dinner-container'>
-                      {obj[key]?.lunch?.service ? (
+                      {obj[dayNames]?.lunch?.service ? (
                         <div className={"lunch-container-home"}>
                           <DisplayMealService
-                            serviceType={obj[key]?.lunch?.serviceType[0]}
+                            serviceType={obj[dayNames]?.lunch?.serviceType[0]}
                             className="displayMealService-wrapper"
-                            mealData={obj[key]?.lunch?.service}
-                            imgs={obj[key]?.lunch?.image}
+                            mealData={obj[dayNames]?.lunch?.service}
+                            imgs={obj[dayNames]?.lunch?.image}
                           />
                         </div>
                       ) : (
                         <div className="noservice-block"> no service</div>
                       )}
   
-                      {obj[key]?.dinner?.service ? (
+                      {obj[dayNames]?.dinner?.service ? (
                         <div className={"dinner-container-home"}>
                           <DisplayMealService
-                            serviceType={obj[key]?.dinner?.serviceType[0]}
+                            serviceType={obj[dayNames]?.dinner?.serviceType[0]}
                             className="displayMealService-wrapper"
-                            mealData={obj[key]?.dinner?.service}
-                            imgs={obj[key]?.dinner?.image}
+                            mealData={obj[dayNames]?.dinner?.service}
+                            imgs={obj[dayNames]?.dinner?.image}
                           />
                         </div>
                       ) : (
@@ -168,13 +176,21 @@ const Home = (props) => {
   
   return (
     <div className="home-section">
-      <button className={hidePrevButton ? 'next-week': 'hide-next-week'} onClick={prevWeek}>previous week</button>
-      <button
-        className={buttonOnData === true ? "next-week" : "hide-next-week"}
-        onClick={nextWeek}
-      >
-        next Week
-      </button>
+      <div className="weekly-btns">
+        <button
+          className={hidePrevButton ? "prev-week" : "hide-next-week"}
+          onClick={prevWeek}
+        >
+          &#x3c; week"
+        </button>
+        {`${currWeek.format('MMM/Do')} - ${endOfWeek.format('MMM/Do')}`}
+        <button
+          className={buttonOnData === true ? "next-week" : "hide-next-week"}
+          onClick={nextWeek}
+        >
+          week &#x3e;
+        </button>
+      </div>
       <div className="service-container">{lunchValues}</div>
     </div>
   );
