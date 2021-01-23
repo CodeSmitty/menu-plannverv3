@@ -1,6 +1,5 @@
 .home-section{
     margin:auto;
-    margin-top:200px;
     width:93%;
     height:515px;
     max-width: 100%;
@@ -44,7 +43,7 @@
     text-align: center;
     flex:0 0 auto;
     z-index:1;
-    border-bottom:rgb(172, 185, 185) 1px solid;
+    border-bottom:rgb(119, 119, 119) 1px solid;
 }
 
 .hide-next-week{
@@ -86,14 +85,11 @@
         
     }
 
-    .lunch-dinner-container{
-        
-        padding:10px;
-    }
+    
 
     .lunch-container-home, .dinner-container-home{
-        width:90%;
-        height:100%;
+        width:100%;
+        height:auto;
         margin:auto;
     }
 }
