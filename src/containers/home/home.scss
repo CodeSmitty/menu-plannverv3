@@ -125,7 +125,7 @@
 // }
 
 .prev-week{
-    @include arrow-button(rgb(246, 246, 246),rgb(24, 30, 36) ,#49585d, 1rem, 4rem,1.5rem ,left)
+    @include arrow-button(rgb(246, 246, 246),rgb(24, 30, 36) ,#49585d, .8rem, 4rem,1.5rem ,left)
 }
 .next-week{
     @include arrow-button(rgb(246, 246, 246),rgb(24, 30, 36) ,#49585d, 1rem, 4rem,1.5rem ,right)
