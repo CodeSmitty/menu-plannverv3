@@ -1,4 +1,5 @@
 import React from "react";
+import './displayMealService.styles.scss'
 
 const vegLogo = require("../../assets/vegetarianIcon.png");
 const glutenLogo = require("../../assets/glutenFree.png");
@@ -29,8 +30,15 @@ const DisplayMealService = (props) => {
   const sideTwoItems = arrReducer(props.mealData ?props.mealData?.sideTwo:null);
   
   return (
-    <div className="displayMealService-wrapper" >
-      <img className={props.imgs ? "img-prev": "img-hid"} src={props.imgs} alt='img' />
+    <div className={props.className}>
+      <div className="img-wrapper">
+        <img
+          className={props.imgs ? "img-prev" : "img-hid"}
+          src={props.imgs}
+          alt="img"
+        />
+      </div>
+      <p className='serviceType'>{props.serviceType}</p>
       <p className="entre-text">{props?.mealData?.entre?.value}</p>
       {entreItems?.map((e, i) => (
         <img key={i} src={imageMap[e]} alt="e" />
@@ -43,9 +51,7 @@ const DisplayMealService = (props) => {
       {sideTwoItems?.map((e, i) => (
         <img key={i} src={imageMap[e]} alt="e" />
       ))}
-      <p className="description-text">
-        {props?.mealData?.description?.value}
-      </p>
+      <p className="description-text">{props?.mealData?.description?.value}</p>
     </div>
   );
 };

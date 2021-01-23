@@ -7,18 +7,14 @@ import DisplayMealService from "../DisplayMealService/displayMealService";
 
 const Home = (props) => {
   const db = () => firebase.database();
-  const [database, setDatabase] = useState();
+  const [buttonOnData, setButtonOnData] = useState(true);
+  const [hidePrevButton, setHidePrevButton] = useState(true);
   const startOfWeek = moment().startOf("week");
-  const endWeek = moment().endOf("week");
 
   const [currWeek, setCurrWeek] = useState(startOfWeek);
   const endOfWeek = moment(currWeek).add(6, "days");
-
+  const endOfNextWeek = moment(endOfWeek).add(6, "days");
   const [lunchValues, setLunchValues] = useState();
-  const [dinnerValue, setDinnerValues] = useState();
-
-  const [weeklyValue, setWeeklyvalues] = useState();
-  const [dayNames, setDayName] = useState([]);
 
   const prevWeek = () => {
     setCurrWeek(moment(currWeek).subtract(1, "week"));
@@ -26,6 +22,25 @@ const Home = (props) => {
 
   const nextWeek = () => {
     setCurrWeek(moment(currWeek).add(1, "week"));
+  };
+
+  const doesNextWeekExist = () => {
+    db()
+      .ref("meals")
+      .orderByChild("date")
+      .startAt(endOfWeek.format("MMM Do YY"))
+      .endAt(endOfNextWeek.format("MMM Do YY"))
+      .once("value", (snapshot) => {
+        if (currWeek < startOfWeek) {
+          setButtonOnData(true);
+          setHidePrevButton(false)
+        } else if (!snapshot.val()) {
+          setButtonOnData(false);
+        } else {
+          setButtonOnData(true);
+          setHidePrevButton(true)
+        }
+      });
   };
 
   function getCurrentWeek() {
@@ -43,6 +58,7 @@ const Home = (props) => {
   let currDays = getCurrentWeek();
 
   useEffect(() => {
+    doesNextWeekExist();
     db()
       .ref("meals")
       .orderByChild("date")
@@ -50,7 +66,6 @@ const Home = (props) => {
       .endAt(endOfWeek.format("MMM Do YY"))
       .on("value", (snapshot) => {
         const snapValue = snapshot.val();
-
         let mealArr = [];
         let getMealsByDate = currDays.filter((day) => {
           let dayOfWeek = moment(day).format("dddd").toLowerCase();
@@ -65,71 +80,101 @@ const Home = (props) => {
             [dayOfWeek]: mealss,
           };
           mealArr.push(mealsByDayOfTheWeek);
-          return day
+
+          return day;
         });
-        
+
         const mealsOfTheDay = mealArr
           ? mealArr.map((meal, i) => {
-              let days = getMealsByDate.map(x =>x)
-              console.log(moment(days).format('dddd MMM Do'))
               let obj;
-              let lunch;
-              let dinner;
+              let meals;
+              let daysByName;
               for (let key in meal) {
+                // if(meal[key] === null){
+                //   setButtonOnData(false)
+                // }else{
+                //   setButtonOnData(true)
+                // }
+
+                let lunchMeals =
+                  meal && meal[key]
+                    ? Object.values(meal[key]).filter(
+                        (lun) => lun?.serviceType[0] === "lunch"
+                      )
+                    : null;
+                let dinnerMeals =
+                  meal && meal[key]
+                    ? Object.values(meal[key]).filter(
+                        (din) => din?.serviceType[0] === "dinner"
+                      )
+                    : null;
+
+                daysByName = key;
                 if (meal) {
                   obj = {
                     [key]: {
-                      lunch: meal && meal[key] ? meal[key][0] : null,
-                      dinner: meal && meal[key] ? meal[key][1] : null,
+                      lunch: lunchMeals ? lunchMeals[0] : null,
+                      dinner: dinnerMeals ? dinnerMeals[0] : null,
                     },
                   };
                 } else {
                   obj = null;
                 }
 
-                 
-                lunch = obj ? (
-                  <div>
-                    <div className={"lunch-container-home"}>
+                meals = obj ? (
+                  <div className="meal-wrapper">
+                    <p className="dayNames">{daysByName}</p>
+                    
+                    <div className='lunch-dinner-container'>
                       {obj[key]?.lunch?.service ? (
-                        <DisplayMealService
-                          mealData={obj[key]?.lunch?.service}
-                          imgs={obj[key]?.lunch?.image}
-                        />
+                        <div className={"lunch-container-home"}>
+                          <DisplayMealService
+                            serviceType={obj[key]?.lunch?.serviceType[0]}
+                            className="displayMealService-wrapper"
+                            mealData={obj[key]?.lunch?.service}
+                            imgs={obj[key]?.lunch?.image}
+                          />
+                        </div>
                       ) : (
-                        <p>no service</p>
+                        <div className="noservice-block"> no service</div>
                       )}
-                    </div>
-                    <div className={"lunch-container-home"}>
+  
                       {obj[key]?.dinner?.service ? (
-                        <DisplayMealService
-                          mealData={obj[key]?.dinner?.service}
-                          imgs={obj[key]?.dinner?.image}
-                        />
+                        <div className={"dinner-container-home"}>
+                          <DisplayMealService
+                            serviceType={obj[key]?.dinner?.serviceType[0]}
+                            className="displayMealService-wrapper"
+                            mealData={obj[key]?.dinner?.service}
+                            imgs={obj[key]?.dinner?.image}
+                          />
+                        </div>
                       ) : (
-                        <p>no service</p>
+                        <div className="noservice-block">no service</div>
                       )}
                     </div>
+
                   </div>
                 ) : null;
               }
 
-              return lunch;
+              return meals;
             })
           : null;
 
         setLunchValues(mealsOfTheDay);
-        setLunchValues(mealsOfTheDay);
-
-        // setWeeklyvalues(weeklyMeals)
       });
   }, [currWeek]);
-  useEffect(() => {}, [database, currWeek, lunchValues, weeklyValue]);
 
+  
   return (
     <div className="home-section">
-      <button onClick={prevWeek}>previous week</button>
-      <button onClick={nextWeek}>next Week</button>
+      <button className={hidePrevButton ? 'next-week': 'hide-next-week'} onClick={prevWeek}>previous week</button>
+      <button
+        className={buttonOnData === true ? "next-week" : "hide-next-week"}
+        onClick={nextWeek}
+      >
+        next Week
+      </button>
       <div className="service-container">{lunchValues}</div>
     </div>
   );

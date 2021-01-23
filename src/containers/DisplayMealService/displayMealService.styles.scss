@@ -1,0 +1,44 @@
+.displayMealService-wrapper{
+    background-color: aliceblue;
+    font-family: 'Times New Roman', Times, serif;
+   
+}
+
+.displayMealService-wrapper:hover{
+    z-index:999;
+    box-shadow: 0 5px 10px 4px rgba(0, 0, 0, 0.5);
+    
+
+
+    .img-prev{
+        width:160px;
+        height:160px;
+    }
+}
+
+.img-wrapper{
+    height:10%;
+    margin:auto;
+}
+
+.img-prev{
+    top:0;
+    width:120px;
+    height:120px;
+    object-fit: cover;
+}
+
+.serviceType{
+    float:left;
+    padding:0;
+    margin:0;
+    width:100%;
+    font-weight: 500;
+}
+
+.entre-text{
+    font-weight: 600;
+    
+    font-size:1.2rem;
+    padding:5px;
+}
