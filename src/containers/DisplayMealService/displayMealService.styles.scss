@@ -35,10 +35,16 @@
     font-family:'Alice', sans-serif;
 }
 
+.entre-container, .sideOne-container, .sideTwo-container, .description-container{
+    padding:5px;
+     box-shadow: 0 3px 5px 1px rgba(0, 0, 0, 0.5);
+}
+
 .home-entre-text{
     font-weight: 500;
     font-size:1.3rem;
     padding:5px;
+   
 }
 
 .home-sideOne-text{
@@ -52,6 +58,7 @@ font-size:1rem;
 .home-description-text{
     font-size:1rem;
     font-family:'Alice', sans-serif;
+    padding:5px;
 }
 
 

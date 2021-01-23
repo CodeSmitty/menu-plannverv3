@@ -39,19 +39,28 @@ const DisplayMealService = (props) => {
         />
       </div>
       <p className='serviceType'>{props.serviceType}</p>
-      <p className="entre-text home-entre-text">{props?.mealData?.entre?.value}</p>
-      {entreItems?.map((e, i) => (
-        <img className="diets-imgs" key={i} src={imageMap[e]} alt="e" />
-      ))}
-      <p className="sideOne-text home-sideOne-text">{props?.mealData?.sideOne?.value}</p>
-      {sideOneItems?.map((e, i) => (
-        <img className='diets-imgs' key={i} src={imageMap[e]} alt="e" />
-      ))}
-      <p className="sideTwo-text home-sideTwo-text">{props?.mealData?.sideTwo?.value}</p>
-      {sideTwoItems?.map((e, i) => (
-        <img className="diets-imgs" key={i} src={imageMap[e]} alt="e" />
-      ))}
-      <p className="description-text home-description-text">{props?.mealData?.description?.value}</p>
+      
+      <div className='entre-container'>
+        <p className="entre-text home-entre-text">{props?.mealData?.entre?.value}</p>
+        {entreItems?.map((e, i) => (
+          <img className="diets-imgs" key={i} src={imageMap[e]} alt="e" />
+        ))}
+      </div>
+      <div className='sideOne-container'>
+        <p className="sideOne-text home-sideOne-text">{props?.mealData?.sideOne?.value}</p>
+        {sideOneItems?.map((e, i) => (
+          <img className='diets-imgs' key={i} src={imageMap[e]} alt="e" />
+        ))}
+      </div>
+      <div className="sideTwo-container">
+        <p className="sideTwo-text home-sideTwo-text">{props?.mealData?.sideTwo?.value}</p>
+        {sideTwoItems?.map((e, i) => (
+          <img className="diets-imgs" key={i} src={imageMap[e]} alt="e" />
+        ))}
+      </div>
+      <div className='description-container'>
+        <p className="description-text home-description-text">{props?.mealData?.description?.value}</p>
+      </div>
     </div>
   );
 };
