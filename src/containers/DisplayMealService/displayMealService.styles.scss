@@ -5,6 +5,7 @@
     background-color: rgb(19, 42, 39);
     font-family:'Alice', sans-serif;
    color:white;
+   font-size: 1rem;
 }
 
 .diets-imgs{
@@ -15,6 +16,7 @@
     height:10%;
     margin:auto;
     background-color: rgb(10, 10, 10);
+    box-shadow: 0 3px 5px 1px rgba(0, 0, 0, 0.5);
 }
 
 .img-prev{
@@ -30,13 +32,26 @@
     margin:0;
     width:100%;
     font-weight: 400;
+    font-family:'Alice', sans-serif;
 }
 
-.entre-text{
-    font-weight: 400;
-    
-    font-size:1.2rem;
+.home-entre-text{
+    font-weight: 500;
+    font-size:1.3rem;
     padding:5px;
+}
+
+.home-sideOne-text{
+font-size:1rem;
+}
+
+.home-sideTwo-text{
+font-size:1rem;
+}
+
+.home-description-text{
+    font-size:1rem;
+    font-family:'Alice', sans-serif;
 }
 
 

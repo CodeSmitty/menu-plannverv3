@@ -39,19 +39,19 @@ const DisplayMealService = (props) => {
         />
       </div>
       <p className='serviceType'>{props.serviceType}</p>
-      <p className="entre-text">{props?.mealData?.entre?.value}</p>
+      <p className="entre-text home-entre-text">{props?.mealData?.entre?.value}</p>
       {entreItems?.map((e, i) => (
         <img className="diets-imgs" key={i} src={imageMap[e]} alt="e" />
       ))}
-      <p className="sideOne-text">{props?.mealData?.sideOne?.value}</p>
+      <p className="sideOne-text home-sideOne-text">{props?.mealData?.sideOne?.value}</p>
       {sideOneItems?.map((e, i) => (
         <img className='diets-imgs' key={i} src={imageMap[e]} alt="e" />
       ))}
-      <p className="sideTwo-text">{props?.mealData?.sideTwo?.value}</p>
+      <p className="sideTwo-text home-sideTwo-text">{props?.mealData?.sideTwo?.value}</p>
       {sideTwoItems?.map((e, i) => (
         <img className="diets-imgs" key={i} src={imageMap[e]} alt="e" />
       ))}
-      <p className="description-text">{props?.mealData?.description?.value}</p>
+      <p className="description-text home-description-text">{props?.mealData?.description?.value}</p>
     </div>
   );
 };
