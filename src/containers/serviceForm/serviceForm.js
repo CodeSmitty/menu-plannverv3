@@ -1,10 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./serviceform.scss";
 import { useStore } from "../../utility/reducers";
 import ImageSelector from "../ImageSelector/ImageSelector";
 //import axios from "../../utility/axios.orders";
-import firebase from "../../utility/firebase.utility";
-import { storage } from "../../utility/firebase.utility";
 import { inputFormData } from "../../utility/inputElementsData";
 import useSubmitForm from "../../utility/customHooks/useSubmitForm";
 
@@ -13,10 +11,7 @@ import Inputs from "./inputs/inputs";
 const ServiceForm = (props) => {
   const [state, dispatch] = useStore();
   const [image, setImage] = useState(null);
-  const [progress, setProgress] = useState(0);
   const [error, setError] = useState("");
-  const [database, setDatabase] = useState(null);
-  const db = () => firebase.database();
 
   const [handleSubmit] = useSubmitForm(props);
 
@@ -110,7 +105,6 @@ const ServiceForm = (props) => {
           <input
             className="svc-type"
             onChange={(e) => {
-              setDatabase(e.target.name);
               dispatch({ type: "LUNCH", payload: e.target.name });
             }}
             checked={state.serviceType.lunch}
@@ -121,7 +115,6 @@ const ServiceForm = (props) => {
           <input
             className="svc-type"
             onChange={(e) => {
-              setDatabase(e.target.name);
               dispatch({ type: "DINNER", payload: e.target.name });
             }}
             checked={state.serviceType.dinner}
@@ -131,7 +124,6 @@ const ServiceForm = (props) => {
           <label>Dinner</label>
           <ImageSelector
             error={error}
-            progress={progress}
             handleChange={handleChange}
             className="uploader"
           />

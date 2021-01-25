@@ -1,6 +1,14 @@
-@import url('https://fonts.googleapis.com/css2?family=Alice&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Alice&display=swap");
 
-@mixin arrow-button($color, $background, $shadow, $font-size, $width, $height, $direction) {  
+@mixin arrow-button(
+  $color,
+  $background,
+  $shadow,
+  $font-size,
+  $width,
+  $height,
+  $direction
+) {
   background: none;
   border: 0;
   font-size: $font-size;
@@ -8,76 +16,75 @@
   position: relative;
   width: $width;
   height: $height;
-  
- 
-  
+
   a {
     color: $color;
     text-decoration: none;
     position: relative;
     z-index: 10;
   }
-  
+
   &::before,
   &::after {
     background: $background;
     border-radius: 2px;
-    content: '';
+    content: "";
     display: block;
     position: absolute;
-      left: 0;
-      right: 0;
+    left: 0;
+    right: 0;
     transition: all 1s;
     height: $height/2;
   }
-  
 
-  &::before { 
-    box-shadow: 
-      -1px 1px 0 $shadow,
-      -2px 2px 0 $shadow,
-      -3px 3px 0 $shadow,
+  &::before {
+    box-shadow: -1px 1px 0 $shadow, -2px 2px 0 $shadow, -3px 3px 0 $shadow,
       -4px 4px 0 $shadow;
     transform: skew(45deg);
-    @if $direction == "left" { bottom: 0; z-index: 1 }
-    @else { top: 0; }
+    @if $direction == "left" {
+      bottom: 0;
+      z-index: 1;
+    } @else {
+      top: 0;
+    }
   }
 
   &::after {
-    box-shadow: 1px 1px 0 $shadow, 
-      2px 2px 0 $shadow,
-      3px 3px 0 $shadow, 
+    box-shadow: 1px 1px 0 $shadow, 2px 2px 0 $shadow, 3px 3px 0 $shadow,
       4px 4px 0 $shadow;
     transform: skew(-45deg);
-    @if $direction == "left" { top: 0;}
-    @else { bottom: 0; }
+    @if $direction == "left" {
+      top: 0;
+    } @else {
+      bottom: 0;
+    }
   }
-  
+
   &:hover::before,
   &:hover::after {
-    background: lighten($background,15%);
+    background: lighten($background, 15%);
   }
-  
+
   &:focus {
-      &::before,
-      &::after {
-        background: lighten($background,15%);
-      }
-      outline: 0;
+    &::before,
+    &::after {
+      background: lighten($background, 15%);
+    }
+    outline: 0;
   }
 }
 
 .home-section {
-  margin: auto;
+
+  margin: 50px auto;
   width: 93%;
-  margin-top: 50px;
   height: 515px;
   max-width: 100%;
   max-height: 600px;
   overflow: hidden;
   box-shadow: 0 3px 5px 1px rgba(0, 0, 0, 0.5);
   justify-content: center;
-  font-family: 'Alice', 'Times New Roman', Times, serif;
+  font-family: "Alice", "Times New Roman", Times, serif;
 }
 
 .meal-wrapper {
@@ -89,26 +96,24 @@
 .service-container {
   display: flex;
   flex-flow: row nowrap;
-  justify-content: start;
+  justify-content: flex-start;
 }
 
 .dayNames {
   border-bottom: rgb(172, 185, 185) 1px solid;
   margin: auto;
-  height:25px;
-  padding:3px;
+  height: 25px;
+  padding: 3px;
 }
 
 .weekly-btns {
-    width:98%;
-    margin:auto;
+  width: 98%;
+  margin: auto;
   display: flex;
   justify-content: space-between;
   flex-flow: row wrap;
-  height:30px;
+  height: 30px;
 }
-
-
 
 .next-week {
   justify-content: flex-end;
@@ -124,22 +129,36 @@
 //   color: bisque;
 // }
 
-.prev-week{
-    @include arrow-button(rgb(246, 246, 246),rgb(24, 30, 36) ,#49585d, .8rem, 4rem,1.5rem ,left)
+.prev-week {
+  @include arrow-button(
+    rgb(246, 246, 246),
+    rgb(24, 30, 36),
+    #49585d,
+    0.8rem,
+    4rem,
+    1.5rem,
+    left
+  );
 }
-.next-week{
-    @include arrow-button(rgb(246, 246, 246),rgb(24, 30, 36) ,#49585d, 1rem, 4rem,1.5rem ,right)
+.next-week {
+  @include arrow-button(
+    rgb(246, 246, 246),
+    rgb(24, 30, 36),
+    #49585d,
+    1rem,
+    4rem,
+    1.5rem,
+    right
+  );
 }
 
-
-
-.noservice-block{
-     background-color: rgb(19, 42, 39);
-    font-family: 'Times New Roman', Times, serif;
-   color:white;
-   font-size:1.2rem;
-   text-align: center;
-   padding:55px;
+.noservice-block {
+  background-color: rgb(19, 42, 39);
+  font-family: "Times New Roman", Times, serif;
+  color: white;
+  font-size: 1.2rem;
+  text-align: center;
+  padding: 55px;
 }
 
 .lunch-container-home,
@@ -158,8 +177,7 @@
   visibility: hidden;
 }
 
-.dates-and-title{
-
+.dates-and-title {
 }
 
 @media only screen and (min-width: 1024px) {
@@ -185,8 +203,8 @@
     overflow: auto;
   }
 
-  .weekly-btns{
-      width:95%;
+  .weekly-btns {
+    width: 95%;
   }
 
   .service-container {

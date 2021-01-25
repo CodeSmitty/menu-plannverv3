@@ -2,29 +2,28 @@ import React, { useState, useEffect } from "react";
 import firebase from "../../utility/firebase.utility";
 import "./home.scss";
 import moment from "moment";
-import Preview from "../preview/preview";
 import DisplayMealService from "../DisplayMealService/displayMealService";
 
-const Home = (props) => {
+const Home = () => {
   const db = () => firebase.database();
   const [buttonOnData, setButtonOnData] = useState(true);
   const [hidePrevButton, setHidePrevButton] = useState(true);
-  const startOfWeek = moment().startOf("week");
+  const startOfWeek = moment.utc().startOf("week");
 
   const [currWeek, setCurrWeek] = useState(startOfWeek);
-  const endOfWeek = moment(currWeek).add(6, "days");
-  const endOfNextWeek = moment(endOfWeek).add(6, "days");
+  const endOfWeek = moment.utc(currWeek).add(6, "days");
+  const endOfNextWeek = moment.utc(endOfWeek).add(6, "days");
   const [lunchValues, setLunchValues] = useState();
 
   const prevWeek = () => {
-    setCurrWeek(moment(currWeek).subtract(1, "week"));
+    setCurrWeek(moment.utc(currWeek).subtract(1, "week"));
   };
 
   const nextWeek = () => {
-    setCurrWeek(moment(currWeek).add(1, "week"));
+    setCurrWeek(moment.utc(currWeek).add(1, "week"));
   };
 
-  console.log(currWeek.format('w'))
+
 
   const doesNextWeekExist = () => {
     db()
@@ -50,7 +49,7 @@ const Home = (props) => {
     let day = currWeek;
 
     while (day <= endOfWeek) {
-      days.push(day.toDate());
+      days.push(moment.utc(day));
       day = day.clone().add(1, "days");
     }
 
@@ -60,6 +59,7 @@ const Home = (props) => {
   let currDays = getCurrentWeek();
 
   useEffect(() => {
+    // eslint-disable-line react-hooks/exhaustive-deps
     doesNextWeekExist();
     db()
       .ref("meals")
@@ -70,10 +70,10 @@ const Home = (props) => {
         const snapValue = snapshot.val();
         let mealArr = [];
         let getMealsByDate = currDays.filter((day) => {
-          let dayOfWeek = moment(day)
+          let dayOfWeek = moment.utc(day);
           let mealss = snapValue
             ? Object?.values(snapValue)?.filter((ser) => {
-                const datesForTheWeek = moment(day).format("MMM Do YY");
+                const datesForTheWeek = moment.utc(day).format("MMM Do YY");
                 return ser.date === datesForTheWeek;
               })
             : null;
@@ -82,7 +82,6 @@ const Home = (props) => {
             [dayOfWeek]: mealss,
           };
 
-          
           mealArr.push(mealsByDayOfTheWeek);
 
           return day;
@@ -90,16 +89,11 @@ const Home = (props) => {
 
         const mealsOfTheDay = mealArr
           ? mealArr.map((meal, i) => {
-
               let obj;
               let meals;
-              let daysByName;
               for (let key in meal) {
-                let dayNames = moment(key).format('dddd').toLowerCase();
-                let datesOfWeek = moment(key).format('ddd MMM Do');
-                console.log(datesOfWeek)
-
-                console.log(meal[key])
+                let dayNames = moment.utc(key).format("dddd").toLowerCase();
+                let datesOfWeek = moment.utc(key).format("dddd Do");
 
                 let lunchMeals =
                   meal && meal[key]
@@ -114,7 +108,6 @@ const Home = (props) => {
                       )
                     : null;
 
-                daysByName = dayNames;
                 if (meal) {
                   obj = {
                     [dayNames]: {
@@ -126,14 +119,11 @@ const Home = (props) => {
                   obj = null;
                 }
 
-              
-              
-
                 meals = obj ? (
                   <div className="meal-wrapper">
                     <p className="dayNames">{`${datesOfWeek} `}</p>
-                    
-                    <div className='lunch-dinner-container'>
+
+                    <div className="lunch-dinner-container">
                       {obj[dayNames]?.lunch?.service ? (
                         <div className={"lunch-container-home"}>
                           <DisplayMealService
@@ -146,7 +136,7 @@ const Home = (props) => {
                       ) : (
                         <div className="noservice-block"> no service</div>
                       )}
-  
+
                       {obj[dayNames]?.dinner?.service ? (
                         <div className={"dinner-container-home"}>
                           <DisplayMealService
@@ -160,7 +150,6 @@ const Home = (props) => {
                         <div className="noservice-block">no service</div>
                       )}
                     </div>
-
                   </div>
                 ) : null;
               }

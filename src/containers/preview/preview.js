@@ -7,18 +7,15 @@ import DisplayMealService from "../DisplayMealService/displayMealService";
 //import {useDatabase } from '../../utility/utility.functions';
 
 const Preview = (props) => {
-  const [placeholderData, setPlaceholderData] = useState(null);
   const [database, setDatabase] = useState({
     lunch: null,
     dinner: null,
   });
   const db = () => firebase.database();
 
-
-
   useEffect(() => {
     db();
-   // console.log("mounted");
+    // console.log("mounted");
   });
 
   useEffect(() => {

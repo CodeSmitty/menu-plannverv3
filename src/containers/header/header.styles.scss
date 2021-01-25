@@ -1,0 +1,41 @@
+@import url("https://fonts.googleapis.com/css2?family=Alice&display=swap");
+
+*{
+    margin-top:0;
+}
+
+.header-container{
+    z-index: 20;
+    top:0;
+    margin-bottom: 50px;
+    width:100%;
+    height:100px;
+    background-color: rgb(19, 42, 39);
+}
+
+.title-text{
+font-family: 'Alice', sans-serif;
+font-size: 2rem;
+margin:auto 0;
+color:blanchedalmond;
+}
+
+.title-container{
+   display: flex;
+   justify-content: flex-start;
+   height:100%;
+   padding:20px;
+}
+
+
+
+@media only screen and (max-width:768px){
+    .title-container{
+        padding-left:15px;
+    }
+
+    .title-text{
+        margin:0;
+        padding:5px;
+    }
+}
