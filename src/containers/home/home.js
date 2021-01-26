@@ -93,7 +93,7 @@ const Home = () => {
               let meals;
               for (let key in meal) {
                 let dayNames = moment.utc(key).format("dddd").toLowerCase();
-                let datesOfWeek = moment.utc(key).format("dddd Do");
+                let datesOfWeek = moment.utc(key).format("dddd");
 
                 let lunchMeals =
                   meal && meal[key]
