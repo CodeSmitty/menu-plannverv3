@@ -1,0 +1,23 @@
+.nav-container{
+    margin-top:20px;
+}
+
+.ul-container{
+    list-style-type: none;
+    display:flex;
+    flex-flow:row nowrap;
+}
+
+
+
+.nav-li{
+    padding:15px;
+}
+
+.active-links{
+    text-decoration: none;
+    color:white;
+}
+
+
+

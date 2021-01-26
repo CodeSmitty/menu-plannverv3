@@ -11,6 +11,9 @@
     width:100%;
     height:100px;
     background-color: rgb(19, 42, 39);
+    display:flex;
+    justify-content: space-between;
+    flex-flow:row nowrap;
 }
 
 .title-text{
@@ -27,6 +30,10 @@ color:blanchedalmond;
    padding:20px;
 }
 
+.nav-wrapper{
+    margin:auto 0;
+}
+
 
 
 @media only screen and (max-width:768px){
@@ -37,5 +44,6 @@ color:blanchedalmond;
     .title-text{
         margin:0;
         padding:5px;
+        font-size: 1.5rem;
     }
 }
