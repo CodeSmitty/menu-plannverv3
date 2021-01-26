@@ -12,7 +12,7 @@ const AboutPage = ()=>{
             on my free time, for learning purposes.
           </p>
         </div>
-        <div className="about-wrapper">
+        <div className="info-wrapper">
           <p>
             Right now this project is very basic and it just renders current
             week's meals. I will slowly be updating more in the future as I get
