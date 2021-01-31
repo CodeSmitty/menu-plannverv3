@@ -36,7 +36,7 @@ const useSubmitForm = (props) => {
 
               const mealData = db().ref().child("meals");
 
-              const dateKey = props.dates + "_" + filtered;
+              const dateKey = props.dateId + "_" + filtered;
 
               const userRef = db().ref("meals");
 
@@ -45,7 +45,7 @@ const useSubmitForm = (props) => {
                   if (!snapshot.hasChild(dateKey)) {
                     mealData.child(dateKey).set({
                       date: props.dates,
-                      serviceId: dateKey,
+                      serviceId:props.dates,
                       serviceType: filtered,
                       service: state,
                       image: url,

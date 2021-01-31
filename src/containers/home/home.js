@@ -8,73 +8,72 @@ const Home = () => {
   const db = () => firebase.database();
   const [buttonOnData, setButtonOnData] = useState(true);
   const [hidePrevButton, setHidePrevButton] = useState(true);
-  const startOfWeek = moment.utc().startOf("week");
-
-  const [currWeek, setCurrWeek] = useState(startOfWeek);
-  const endOfWeek = moment.utc(currWeek).add(6, "days");
-  const endOfNextWeek = moment.utc(endOfWeek).add(6, "days");
+  const [startOfCurrentWeek, setStartOfCurrentWeek] = useState({
+    currentWeekstart: moment().startOf("week"),
+    currentWeekEnd: moment().endOf("week"),
+  });
   const [lunchValues, setLunchValues] = useState();
 
+  const { currentWeekstart, currentWeekEnd } = startOfCurrentWeek;
+
   const prevWeek = () => {
-    setCurrWeek(moment.utc(currWeek).subtract(1, "week"));
+    const prevStart = currentWeekstart;
+    const prevEnd = currentWeekEnd;
+    const newWeekStart = moment(prevStart).subtract(7, "days");
+    const newWeekEnd = moment(prevEnd).subtract(7, "days");
+
+    setStartOfCurrentWeek({
+      currentWeekstart: newWeekStart,
+      currentWeekEnd: newWeekEnd,
+    });
   };
 
   const nextWeek = () => {
-    setCurrWeek(moment.utc(currWeek).add(1, "week"));
+    const newStart = currentWeekstart;
+    const newEnd = currentWeekEnd;
+    const newWeekStart = moment(newStart).add(1, "week");
+    const newWeekEnd = moment(newEnd).add(1, "week");
+
+    setStartOfCurrentWeek({
+      currentWeekstart: newWeekStart,
+      currentWeekEnd: newWeekEnd,
+    });
   };
 
-
-
-  const doesNextWeekExist = () => {
-    db()
-      .ref("meals")
-      .orderByChild("date")
-      .startAt(endOfWeek.format("MMM Do YY"))
-      .endAt(endOfNextWeek.format("MMM Do YY"))
-      .once("value", (snapshot) => {
-        if (currWeek < startOfWeek) {
-          setButtonOnData(true);
-          setHidePrevButton(false)
-        } else if (!snapshot.val()) {
-          setButtonOnData(false);
-        } else {
-          setButtonOnData(true);
-          setHidePrevButton(true)
-        }
-      });
-  };
-
-  function getCurrentWeek() {
+  function getCurrentDaysOfWeek() {
     let days = [];
-    let day = currWeek;
-
-    while (day <= endOfWeek) {
-      days.push(moment.utc(day));
+    let day = currentWeekstart;
+    while (day <= currentWeekEnd) {
+      days.push(day.toDate());
       day = day.clone().add(1, "days");
     }
-
     return days;
   }
 
-  let currDays = getCurrentWeek();
+  let currDays = getCurrentDaysOfWeek();
+
+  const start = currDays[0];
+  const end = currDays[6];
 
   useEffect(() => {
     // eslint-disable-line react-hooks/exhaustive-deps
-    doesNextWeekExist();
+    //format("YYYY MM DD")
     db()
       .ref("meals")
       .orderByChild("date")
-      .startAt(currWeek.format("MMM Do YY"))
-      .endAt(endOfWeek.format("MMM Do YY"))
-      .on("value", (snapshot) => {
-        const snapValue = snapshot.val();
+      .startAt(currentWeekstart.format("YYYY-MM-DD"))
+      .endAt(currentWeekEnd.format("YYYY-MM-DD"))
+      .once("value", async (snapshot) => {
+        const snapValue = await snapshot.val();
+        console.log(currentWeekstart.format("YYYY-MM-DD"));
+        console.log(snapValue);
         let mealArr = [];
         let getMealsByDate = currDays.filter((day) => {
-          let dayOfWeek = moment.utc(day);
+          let dayOfWeek = moment(day).format("YYYY-MM-DD");
           let mealss = snapValue
             ? Object?.values(snapValue)?.filter((ser) => {
-                const datesForTheWeek = moment.utc(day).format("MMM Do YY");
-                return ser.date === datesForTheWeek;
+                const datesForTheWeek = moment(day).format("YYYY-MM-DD");
+                return ser.date === dayOfWeek;
               })
             : null;
 
@@ -91,9 +90,10 @@ const Home = () => {
           ? mealArr.map((meal, i) => {
               let obj;
               let meals;
+              let dayNames;
               for (let key in meal) {
-                let dayNames = moment.utc(key).format("dddd").toLowerCase();
-                let datesOfWeek = moment.utc(key).format("dddd");
+                let dayNames = moment(key).format("dddd").toLowerCase();
+                let datesOfWeek = moment(key).format("dddd");
 
                 let lunchMeals =
                   meal && meal[key]
@@ -108,6 +108,8 @@ const Home = () => {
                       )
                     : null;
 
+                dayNames = key;
+
                 if (meal) {
                   obj = {
                     [dayNames]: {
@@ -121,12 +123,15 @@ const Home = () => {
 
                 meals = obj ? (
                   <div className="meal-wrapper">
-                    <p className="dayNames">{`${datesOfWeek} `}</p>
+                    <p className="dayNames">{` ${moment(dayNames).format(
+                      "dddd"
+                    )} `}</p>
 
                     <div className="lunch-dinner-container">
                       {obj[dayNames]?.lunch?.service ? (
                         <div className={"lunch-container-home"}>
                           <DisplayMealService
+                            key={`lunch${i}`}
                             serviceType={obj[dayNames]?.lunch?.serviceType[0]}
                             className="displayMealService-wrapper"
                             mealData={obj[dayNames]?.lunch?.service}
@@ -140,6 +145,7 @@ const Home = () => {
                       {obj[dayNames]?.dinner?.service ? (
                         <div className={"dinner-container-home"}>
                           <DisplayMealService
+                            key={`dinner${i}`}
                             serviceType={obj[dayNames]?.dinner?.serviceType[0]}
                             className="displayMealService-wrapper"
                             mealData={obj[dayNames]?.dinner?.service}
@@ -160,9 +166,8 @@ const Home = () => {
 
         setLunchValues(mealsOfTheDay);
       });
-  }, [currWeek]);
+  }, [startOfCurrentWeek]);
 
-  
   return (
     <div className="home-section">
       <div className="weekly-btns">
@@ -172,8 +177,10 @@ const Home = () => {
         >
           <a href="#">Previous</a>
         </button>
-        <div className='dates-and-titles'>
-          {`${currWeek.format('MMM/Do')} - ${endOfWeek.format('MMM/Do')}`}
+        <div className="dates-and-titles">
+          {`${currentWeekstart.format("MMM Do YY")} - ${currentWeekEnd.format(
+            "MMM Do YY"
+          )}`}
         </div>
         <button
           className={buttonOnData === true ? "next-week" : "hide-next-week"}

@@ -3,9 +3,10 @@ import ServiceForm from "../containers/serviceForm/serviceForm";
 import Preview from "../containers/preview/preview";
 import moment from "moment";
 import "./Planner.scss";
+import Calendar from 'react-calendar'
 
 const Planner = () => {
-  const [date, setDate] = useState(moment(new Date()));
+  const [date, setDate] = useState(moment());
 
   
 
@@ -30,10 +31,15 @@ const Planner = () => {
       <div className="form-preview-container">
         <div className="serviceform-container">
           <ServiceForm
-            dates={date.format("MMM Do YY")}
+            dateId={date.format("MMM Do YY")}
+            dates={date.format("YYYY-MM-DD")}
           />
         </div>
-        <Preview className="preview-planner" dates={date.format("MMM Do YY")} />
+        <Preview className="preview-planner" dates={date.format("YYYY-MM-DD")} />
+      </div>
+
+      <div style={{margin:'300px  0'}}>
+        <Calendar  />
       </div>
     </div>
   );
