@@ -5,13 +5,14 @@ import ImageSelector from "../ImageSelector/ImageSelector";
 //import axios from "../../utility/axios.orders";
 import { inputFormData } from "../../utility/inputElementsData";
 import useSubmitForm from "../../utility/customHooks/useSubmitForm";
-
+import moment from 'moment'
 import Inputs from "./inputs/inputs";
 
 const ServiceForm = (props) => {
   const [state, dispatch] = useStore();
   const [image, setImage] = useState(null);
   const [error, setError] = useState("");
+
 
   const [handleSubmit] = useSubmitForm(props);
 

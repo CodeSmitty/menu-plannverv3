@@ -21,6 +21,7 @@ function App() {
         <Store>
           <Header />
           {routes}
+          <Planner />
         </Store>
       </BrowserRouter>
     </div>

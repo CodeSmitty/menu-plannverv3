@@ -16,12 +16,14 @@ const Home = () => {
 
   const { currentWeekstart, currentWeekEnd } = startOfCurrentWeek;
 
+  console.log(moment().format("WWYY"))
+
   const prevWeek = () => {
     const prevStart = currentWeekstart;
     const prevEnd = currentWeekEnd;
     const newWeekStart = moment(prevStart).subtract(7, "days");
     const newWeekEnd = moment(prevEnd).subtract(7, "days");
-
+    console.log(prevStart)
     setStartOfCurrentWeek({
       currentWeekstart: newWeekStart,
       currentWeekEnd: newWeekEnd,
@@ -39,6 +41,23 @@ const Home = () => {
       currentWeekEnd: newWeekEnd,
     });
   };
+
+  //  const doesNextWeekExist = (data) => {
+  //    const nextWeekStart = moment(currentWeekstart).add(7, 'days')
+  //    const nextWeekEnd = moment(currentWeekEnd).add(7, 'days');
+  //    db()
+  //      .ref("meals")
+  //      .orderByChild("date")
+  //      .startAt(nextWeekStart.format("YYYY-MM-DD"))
+  //      .endAt(nextWeekEnd.format("YYYY-MM-DD"))
+  //      .once("value", (snapshot) => {
+  //       console.log(nextWeekStart.format("MMM Do"))
+  //         if(snapshot.val()){
+  //           setHidePrevButton(false)
+  //           setButtonOnData(false)
+  //         }
+  //      });
+  //  };
 
   function getCurrentDaysOfWeek() {
     let days = [];
@@ -58,6 +77,7 @@ const Home = () => {
   useEffect(() => {
     // eslint-disable-line react-hooks/exhaustive-deps
     //format("YYYY MM DD")
+   
     db()
       .ref("meals")
       .orderByChild("date")
@@ -65,8 +85,6 @@ const Home = () => {
       .endAt(currentWeekEnd.format("YYYY-MM-DD"))
       .once("value", async (snapshot) => {
         const snapValue = await snapshot.val();
-        console.log(currentWeekstart.format("YYYY-MM-DD"));
-        console.log(snapValue);
         let mealArr = [];
         let getMealsByDate = currDays.filter((day) => {
           let dayOfWeek = moment(day).format("YYYY-MM-DD");
@@ -172,7 +190,7 @@ const Home = () => {
     <div className="home-section">
       <div className="weekly-btns">
         <button
-          className={hidePrevButton ? "prev-week" : "hide-next-week"}
+          className={hidePrevButton === true ? "prev-week" : "hide-next-week"}
           onClick={prevWeek}
         >
           <a href="#">Previous</a>

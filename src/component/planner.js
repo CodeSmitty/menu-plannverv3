@@ -9,6 +9,7 @@ const Planner = () => {
   const [date, setDate] = useState(moment());
 
   
+  
 
   const prevDay = () => {
     setDate(moment(date).subtract(1, "days"));
@@ -33,6 +34,9 @@ const Planner = () => {
           <ServiceForm
             dateId={date.format("MMM Do YY")}
             dates={date.format("YYYY-MM-DD")}
+            weekId={date.format("YYYY-W")}
+            datesTree={date}
+            dateWeek={date}
           />
         </div>
         <Preview className="preview-planner" dates={date.format("YYYY-MM-DD")} />
