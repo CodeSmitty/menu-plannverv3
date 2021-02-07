@@ -2,12 +2,18 @@ import { useState } from "react";
 import firebase from "../firebase.utility";
 import { storage } from "../firebase.utility";
 import { useStore } from "../reducers";
+import moment from 'moment'
+import {createData} from '../data';
+import FireApi from '../rest.classes';
 
 const useSubmitForm = (props) => {
   const [state] = useStore();
   //const [progress, setProgress] = useState(0);
   const [error, setError] = useState("");
   const db = () => firebase.database();
+  
+  const weekToDate = `week_0${moment(props.datesTree).week()}`;
+  
 
   const handleSubmit = (e, image) => {
     e.preventDefault();
@@ -40,57 +46,83 @@ const useSubmitForm = (props) => {
 
               const userRef = db().ref("meals");
 
+              
+            const yearToDate = moment(props.datesTree).format("YYYY")
+            
+            const dateId = `${moment(props.datesTree).format("YYYY-MM-DD")}_${filtered}`
+              console.log('submit: '+ weekToDate)
+             
               if (url) {
-                userRef.once("value", (snapshot) => {
-                  if (!snapshot.hasChild(dateKey)) {
-                    mealData.child(dateKey).set({
-                      date: props.dates,
-                      serviceId:props.dates,
-                      serviceType: filtered,
-                      service: state,
-                      image: url,
-                      items: [
-                        { entre: state.entre, type: "entre" },
-                        {
-                          name: state.sideOne,
-                          type: "side_one",
-                        },
-                        {
-                          name: state.sideTwo,
-                          type: "side_two",
-                        },
-                        {
-                          name: state.description,
-                          type: "description",
-                        },
-                      ],
-                    });
-                  } else if (snapshot.hasChild(dateKey)) {
-                    db()
-                      .ref(dateKey)
-                      .once("value", (snap) => {
-                        mealData.child(dateKey).update({
-                          service: state,
-                          image: url,
-                          items: [
-                            { name: state.entre, type: "entre" },
-                            {
-                              name: state.sideOne,
-                              type: "side_one",
-                            },
-                            {
-                              name: state.sideTwo,
-                              type: "side_two",
-                            },
-                            {
-                              name: state.description,
-                              type: "description",
-                            },
-                          ],
-                        });
-                      });
+
+                const data = createData(dateId, yearToDate, weekToDate, filtered, url, state);
+                
+                
+
+                db().ref("/mealService").once('value', snap =>{
+                  if(!snap.hasChild(yearToDate)){
+                    FireApi.create(yearToDate, weekToDate, dateId, data);
+                  }else if(snap.hasChild(yearToDate)){
+                    FireApi.create(yearToDate, weekToDate, dateId, data);
                   }
                 });
+
+                
+
+
+            
+
+
+                // userRef.once("value", (snapshot) => {
+                //   if (!snapshot.hasChild(dateKey)) {
+
+                //     mealData.child(dateKey).set({
+                //       date: props.dates,
+                //       serviceId:props.dates,
+                //       serviceType: filtered,
+                //       service: state,
+                //       image: url,
+                //       items: [
+                //         { entre: state.entre, type: "entre" },
+                //         {
+                //           name: state.sideOne,
+                //           type: "side_one",
+                //         },
+                //         {
+                //           name: state.sideTwo,
+                //           type: "side_two",
+                //         },
+                //         {
+                //           name: state.description,
+                //           type: "description",
+                //         },
+                //       ],
+                //     });
+                //   } else if (snapshot.hasChild(dateKey)) {
+                //     db()
+                //       .ref(dateKey)
+                //       .once("value", (snap) => {
+                //         mealData.child(dateKey).update({
+                //           service: state,
+                //           image: url,
+                //           items: [
+                //             { name: state.entre, type: "entre" },
+                //             {
+                //               name: state.sideOne,
+                //               type: "side_one",
+                //             },
+                //             {
+                //               name: state.sideTwo,
+                //               type: "side_two",
+                //             },
+                //             {
+                //               name: state.description,
+                //               type: "description",
+                //             },
+                //           ],
+                //         });
+                //       });
+                //   }
+                // });
               }
               //setProgress(0);
             });
@@ -99,6 +131,8 @@ const useSubmitForm = (props) => {
     } else {
       console.log(error);
     }
+
+   
   };
 
   return [handleSubmit];

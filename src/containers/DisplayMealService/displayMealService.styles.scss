@@ -1,78 +1,90 @@
-@import url('https://fonts.googleapis.com/css2?family=Alice&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Alice&display=swap");
+
+.displayMealService-wrapper {
+  // background-color: rgb(19, 42, 39);
+  width:100%;
+  position:absolute;
+  bottom:0;
+  height:200px;
+  background: rgba(255, 253, 248, 0.575);
+  overflow: auto;
+  font-family: "Alice", sans-serif;
+  color: rgb(0, 0, 0);
+  font-size: 1rem;
 
 
-.displayMealService-wrapper{
-    background-color: rgb(19, 42, 39);
-    font-family:'Alice', sans-serif;
-   color:white;
-   font-size: 1rem;
+  &::-webkit-scrollbar{
+      width:2px;
+  }
+  
 }
 
-.diets-imgs{
-    filter:invert(.7)
+.meal-details-wrapper{
+    width:98%;
+    margin:0 auto;
+    bottom:0;
 }
 
-.img-wrapper{
-    height:10%;
-    margin:auto;
-    background-color: rgb(10, 10, 10);
-    box-shadow: 0 3px 5px 1px rgba(0, 0, 0, 0.5);
+.diets-imgs-container{
+    display:flex;
+    flex-flow:row nowrap;
+}
+.diets-imgs {
+ // filter: invert(0.7);
+  width: 20px;
+  height:20px;
 }
 
-.img-prev{
-    top:0;
-    width:120px;
-    height:120px;
-    object-fit: cover;
+.img-wrapper {
+  height: 10%;
+  margin: auto;
+  background-color: rgb(10, 10, 10);
+  box-shadow: 0 3px 5px 1px rgba(0, 0, 0, 0.5);
 }
 
-.serviceType{
+.img-prev {
+  top: 0;
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+}
+
+.serviceType-wrapper{
+    padding-bottom:30px;
+}
+
+.serviceType {
     float:left;
-    padding:10px 0;
-    margin:0;
-    width:100%;
-    font-weight: 400;
-    font-family:'Alice', sans-serif;
+  text-align: center;
+  
+  color:white;
+  background-color: black;
+  border-radius: 25px;
+  font-size: .7em;
+  margin: 0;
+  font-weight: 400;
+  font-family: "Alice", sans-serif;
 }
 
-.entre-container, .sideOne-container, .sideTwo-container, .description-container{
-    padding:5px;
-     box-shadow: 0 3px 5px 1px rgba(0, 0, 0, 0.5);
+.entre-container,
+.sideOne-container,
+.sideTwo-container,
+.description-container {
+  //  box-shadow: 0 3px 5px 1px rgba(0, 0, 0, 0.5);
+  display:flex;
+  flex-flow:row nowrap;
+  justify-content: space-between;
+  text-align: left;
+  width:100%;
 }
 
-.home-entre-text{
-    font-weight: 500;
-    font-size:1.3rem;
-    padding:5px;
-   
+.home-entre-text {
+  font-weight: 500;
 }
 
-.home-sideOne-text{
-font-size:1rem;
+.home-description-text {
+  font-family: "Alice", sans-serif;
 }
 
-.home-sideTwo-text{
-font-size:1rem;
-}
-
-.home-description-text{
-    font-size:1rem;
-    font-family:'Alice', sans-serif;
-    padding:5px;
-}
-
-
-@media only screen and (min-width:1024px){
-.displayMealService-wrapper:hover{
-    z-index:999;
-    box-shadow: 0 5px 10px 4px rgba(0, 0, 0, 0.5);
-    
-
-
-    .img-prev{
-        width:160px;
-        height:160px;
-       
-    }
-}
+@media only screen and (min-width: 1024px) {
 }

@@ -5,13 +5,14 @@ import ImageSelector from "../ImageSelector/ImageSelector";
 //import axios from "../../utility/axios.orders";
 import { inputFormData } from "../../utility/inputElementsData";
 import useSubmitForm from "../../utility/customHooks/useSubmitForm";
-
+import moment from 'moment'
 import Inputs from "./inputs/inputs";
 
 const ServiceForm = (props) => {
   const [state, dispatch] = useStore();
   const [image, setImage] = useState(null);
   const [error, setError] = useState("");
+
 
   const [handleSubmit] = useSubmitForm(props);
 
@@ -42,9 +43,9 @@ const ServiceForm = (props) => {
 
   let findInputs = findInputElements(inputFormData);
 
-  let mapInputs = findInputs.map((x) => {
+  let mapInputs = findInputs.map((x, i) => {
     return (
-      <div className="form-container">
+      <div key={`entre${i}`} className="form-container">
         <div className="entre-form">
           <Inputs
             elementConfig={x.inputForm.elementConfig}
@@ -56,7 +57,7 @@ const ServiceForm = (props) => {
           />
         </div>
 
-        <div className="diets">
+        <div key={`diets${i}`} className="diets">
           <Inputs
             elType={x.inputForm.checkbox?.veg?.elementType}
             elementConfig={x.inputForm.checkbox?.veg?.elementConfig}
