@@ -12,54 +12,122 @@ const DisplayMealService = (props) => {
     dairy: dairyFree,
   };
 
+  let imageUrl = props.imgs;
+  const style = {
+    background: `url(${imageUrl})`,
+    backgroundSize:'cover',
+    position:'relative',
+    backgroundPosition:'center'
+  };
 
+  console.log(style)
+
+//console.log(props.mealData ?props.mealData[0]?.diets[1].glut : null)
+ 
+  
+const entre = {
+  value: props.mealData && props.mealData[0] ? props.mealData[0].entre : null,
+  glut:
+    props.mealData && props.mealData[0]
+      ? props.mealData[0].diets[1].glut
+      : null,
+  veg:
+    props.mealData && props.mealData[0] ? props.mealData[0].diets[0].veg : null,
+  dairy:
+    props.mealData && props.mealData[0]
+      ? props.mealData[0].diets[2].dairy
+      : null,
+};
+  
+
+const sideOne = {
+  value: props.mealData && props.mealData[1] ? props.mealData[1].sideOne : null,
+  glut:
+    props.mealData && props.mealData[1]
+      ? props.mealData[1].diets[1].glut
+      : null,
+  veg:
+    props.mealData && props.mealData[1] ? props.mealData[1].diets[0].veg : null,
+  dairy:
+    props.mealData && props.mealData[1]
+      ? props.mealData[1].diets[2].dairy
+      : null,
+};
+
+const sideTwo = {
+  value: props.mealData && props.mealData[2] ? props.mealData[2].sideTwo : null,
+  glut:
+    props.mealData && props.mealData[2]
+      ? props.mealData[2].diets[1].glut
+      : null,
+  veg:
+    props.mealData && props.mealData[2] ? props.mealData[2].diets[0].veg : null,
+  dairy:
+    props.mealData && props.mealData[2]
+      ? props.mealData[2].diets[2].dairy
+      : null,
+};
 
   const arrReducer = (obj) =>
    obj? Object.entries(obj).reduce((accumulator, [k, v]) => {
       
       if (k !== "value" && v) {
-        
+      
         accumulator.push(k);
       }
       return accumulator;
     }, []):null;
 
-  const entreItems = arrReducer(props.mealData ?props.mealData?.entre:null);
+  const entreItems = arrReducer(
+    entre
+  );
 
-  const sideOneItems = arrReducer(props.mealData ? props.mealData?.sideOne:null);
-  const sideTwoItems = arrReducer(props.mealData ?props.mealData?.sideTwo:null);
-  
+
+ 
+  const sideOneItems = arrReducer(sideOne);
+  const sideTwoItems = arrReducer(sideTwo);
+
   return (
-    <div className={props.className}>
-      <div className="img-wrapper">
-        <img
-          className={props.imgs ? "img-prev" : "img-hid"}
-          src={props.imgs}
-          alt="img"
-        />
-      </div>
-      <p className='serviceType'>{props.serviceType}</p>
+    <div className={props.className} >
+    
+      {/* <div className='serviceType-wrapper'>
+        <p className='serviceType'>{props.serviceType}</p>
+      </div> */}
       
-      <div className='entre-container'>
-        <p className="entre-text home-entre-text">{props?.mealData?.entre?.value}</p>
-        {entreItems?.map((e, i) => (
-          <img className="diets-imgs" key={i} src={imageMap[e]} alt="e" />
-        ))}
-      </div>
-      <div className='sideOne-container'>
-        <p className="sideOne-text home-sideOne-text">{props?.mealData?.sideOne?.value}</p>
-        {sideOneItems?.map((e, i) => (
-          <img className='diets-imgs' key={i} src={imageMap[e]} alt="e" />
-        ))}
-      </div>
-      <div className="sideTwo-container">
-        <p className="sideTwo-text home-sideTwo-text">{props?.mealData?.sideTwo?.value}</p>
-        {sideTwoItems?.map((e, i) => (
-          <img className="diets-imgs" key={i} src={imageMap[e]} alt="e" />
-        ))}
-      </div>
-      <div className='description-container'>
-        <p className="description-text home-description-text">{props?.mealData?.description?.value}</p>
+      <div className="meal-details-wrapper">
+        <div className='entre-container'>
+          
+          <p className="entre-text home-entre-text">{props.mealData ?props?.mealData[0]?.entre :null}</p>
+          <div className="diets-imgs-container">
+            {entreItems?.map((e, i) =>{ console.log(e) 
+              return (
+             
+                <img className="diets-imgs" key={i} src={imageMap[e]} alt="e" />
+              
+            )})}
+          </div>
+        </div>
+        <div className='sideOne-container'>
+          <p className="sideOne-text home-sideOne-text">{props.mealData ?props?.mealData[1]?.sideOne:null}</p>
+          <div className="diets-imgs-container">
+            {sideOneItems?.map((e, i) => (
+              
+                <img className='diets-imgs' key={i} src={imageMap[e]} alt="e" />
+             
+            ))}
+          </div>
+        </div>
+        <div className="sideTwo-container">
+          <p className="sideTwo-text home-sideTwo-text">{props.mealData ? props?.mealData[2]?.sideTwo:null}</p>
+          <div className='diest-imgs-container'>
+            {sideTwoItems?.map((e, i) => (
+              <img className="diets-imgs" key={i} src={imageMap[e]} alt="e" />
+            ))}
+          </div>
+        </div>
+        <div className='description-container'>
+          <p className="description-text home-description-text">{props.mealData ? props?.mealData[3]?.description :null}</p>
+        </div>
       </div>
     </div>
   );

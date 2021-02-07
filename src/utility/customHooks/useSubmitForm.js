@@ -3,13 +3,16 @@ import firebase from "../firebase.utility";
 import { storage } from "../firebase.utility";
 import { useStore } from "../reducers";
 import moment from 'moment'
+import {createData} from '../data';
+import FireApi from '../rest.classes';
+
 const useSubmitForm = (props) => {
   const [state] = useStore();
   //const [progress, setProgress] = useState(0);
   const [error, setError] = useState("");
   const db = () => firebase.database();
   
-  
+  const weekToDate = `week_0${moment(props.datesTree).week()}`;
   
 
   const handleSubmit = (e, image) => {
@@ -45,171 +48,27 @@ const useSubmitForm = (props) => {
 
               
             const yearToDate = moment(props.datesTree).format("YYYY")
-            const weekToDate = `week_${moment(props.datesTree).isoWeek()}`;
+            
             const dateId = `${moment(props.datesTree).format("YYYY-MM-DD")}_${filtered}`
-
+              console.log('submit: '+ weekToDate)
              
               if (url) {
 
-                db().ref("/mealService").once('value',snap=>{
+                const data = createData(dateId, yearToDate, weekToDate, filtered, url, state);
+                
+                
+
+                db().ref("/mealService").once('value', snap =>{
                   if(!snap.hasChild(yearToDate)){
-                     db()
-                       .ref()
-                       .child("/mealService")
-                       .child(yearToDate)
-                       .child(weekToDate)
-                       .child(dateId)
-                       .set({
-                         mealId: dateId,
-                         year: yearToDate,
-                         week: weekToDate,
-                         serviceType: filtered,
-                         image: url,
-                         mealItems: [
-                           {
-                             entre: state?.entre?.value,
-                             type: "entre",
-                             diets: [
-                               { veg: state?.entre.veg, type: "vegetarian" },
-                               {
-                                 glut: state?.entre?.glut,
-                                 type: "gluten_free",
-                               },
-                               {
-                                 dairy: state?.entre?.dairy,
-                                 type: "dairy_free",
-                               },
-                             ],
-                           },
-                           {
-                             sideOne: state?.sideOne?.value,
-                             type: "entre",
-                             diets: [
-                               { veg: state?.sideOne.veg, type: "vegetarian" },
-                               {
-                                 glut: state?.sideOne?.glut,
-                                 type: "gluten_free",
-                               },
-                               {
-                                 dairy: state?.sideOne?.dairy,
-                                 type: "dairy_free",
-                               },
-                             ],
-                           },
-                           {
-                             sideTwo: state?.sideTwo?.value,
-                             type: "entre",
-                             diets: [
-                               { veg: state?.sideTwo.veg, type: "vegetarian" },
-                               {
-                                 glut: state?.sideTwo?.glut,
-                                 type: "gluten_free",
-                               },
-                               {
-                                 dairy: state?.sideTwo?.dairy,
-                                 type: "dairy_free",
-                               },
-                             ],
-                           },
-                           {
-                             description: state?.description?.value,
-                             type: "entre",
-                             diets: [
-                               {
-                                 veg: state?.description.veg,
-                                 type: "vegetarian",
-                               },
-                               {
-                                 glut: state?.description?.glut,
-                                 type: "gluten_free",
-                               },
-                               {
-                                 dairy: state?.description?.dairy,
-                                 type: "dairy_free",
-                               },
-                             ],
-                           },
-                         ],
-                       });
-                    
+                    FireApi.create(yearToDate, weekToDate, dateId, data);
                   }else if(snap.hasChild(yearToDate)){
-                   db()
-                     .ref()
-                     .child("/mealService")
-                     .child(yearToDate)
-                     .child(weekToDate)
-                     .child(dateId)
-                     .update({
-                       mealId: props.dates,
-                       year: yearToDate,
-                       week: weekToDate,
-                       serviceType: filtered[0],
-                       image: url,
-                       mealItems: [
-                         {
-                           entre: state?.entre?.value,
-                           type: "entre",
-                           diets: [
-                             { veg: state?.entre.veg, type: "vegetarian" },
-                             {
-                               glut: state?.entre?.glut,
-                               type: "gluten_free",
-                             },
-                             {
-                               dairy: state?.entre?.dairy,
-                               type: "dairy_free",
-                             },
-                           ],
-                         },
-                         {
-                           sideOne: state?.sideOne?.value,
-                           type: "entre",
-                           diets: [
-                             { veg: state?.sideOne.veg, type: "vegetarian" },
-                             {
-                               glut: state?.sideOne?.glut,
-                               type: "gluten_free",
-                             },
-                             {
-                               dairy: state?.sideOne?.dairy,
-                               type: "dairy_free",
-                             },
-                           ],
-                         },
-                         {
-                           sideTwo: state?.sideTwo?.value,
-                           type: "entre",
-                           diets: [
-                             { veg: state?.sideTwo.veg, type: "vegetarian" },
-                             {
-                               glut: state?.sideTwo?.glut,
-                               type: "gluten_free",
-                             },
-                             {
-                               dairy: state?.sideTwo?.dairy,
-                               type: "dairy_free",
-                             },
-                           ],
-                         },
-                         {
-                           description: state?.description?.value,
-                           type: "entre",
-                           diets: [
-                             { veg: state?.description.veg, type: "vegetarian" },
-                             {
-                               glut: state?.description?.glut,
-                               type: "gluten_free",
-                             },
-                             {
-                               dairy: state?.description?.dairy,
-                               type: "dairy_free",
-                             },
-                           ],
-                         },
-                       ],
-                     });
+                    FireApi.create(yearToDate, weekToDate, dateId, data);
                   }
-                })
+                });
+
+                
+
+
             
 
 
@@ -263,7 +122,7 @@ const useSubmitForm = (props) => {
                 //         });
                 //       });
                 //   }
-                //});
+                // });
               }
               //setProgress(0);
             });

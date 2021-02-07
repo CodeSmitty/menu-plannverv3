@@ -43,9 +43,9 @@ const ServiceForm = (props) => {
 
   let findInputs = findInputElements(inputFormData);
 
-  let mapInputs = findInputs.map((x) => {
+  let mapInputs = findInputs.map((x, i) => {
     return (
-      <div className="form-container">
+      <div key={`entre${i}`} className="form-container">
         <div className="entre-form">
           <Inputs
             elementConfig={x.inputForm.elementConfig}
@@ -57,7 +57,7 @@ const ServiceForm = (props) => {
           />
         </div>
 
-        <div className="diets">
+        <div key={`diets${i}`} className="diets">
           <Inputs
             elType={x.inputForm.checkbox?.veg?.elementType}
             elementConfig={x.inputForm.checkbox?.veg?.elementConfig}
