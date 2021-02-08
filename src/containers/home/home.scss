@@ -27,7 +27,6 @@
   flex-flow: row nowrap;
   justify-content: space-around;
   overflow:hidden;
-  box-shadow: 0 3px 5px 1px rgba(0, 0, 0, 0.5);
   
  
   // background-color: rgb(19, 42, 39);
@@ -125,8 +124,8 @@
  
 
   .meal-wrapper{
-    width:100%;
-    margin:0 auo;
+    width:80%;
+    margin:0 auto;
     margin-top:15px;
     border-radius: 20px;
     overflow: hidden;
