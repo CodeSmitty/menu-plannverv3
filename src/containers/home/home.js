@@ -63,7 +63,6 @@ const Home = () => {
 
   return (
     <div className="home-section">
-      <div className="weekly-btns">
         {/* <button
           className={hidePrevButton === true ? "prev-week" : "hide-next-week"}
           onClick={prevWeek}
@@ -81,7 +80,7 @@ const Home = () => {
         >
           <a href="#">Next</a>
         </button> */}
-      </div>
+      
       <div className="service-container">{currentMeals}</div>
     </div>
   );
