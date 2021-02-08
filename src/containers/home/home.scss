@@ -27,8 +27,7 @@
   flex-flow: row nowrap;
   justify-content: space-around;
   overflow:hidden;
-  box-shadow: 0 3px 5px 1px rgba(0, 0, 0, 0.5);
-  border-radius: 25px;
+  
  
   // background-color: rgb(19, 42, 39);
 }
@@ -96,6 +95,7 @@
   margin: 0 auto;
   box-shadow: 0 3px 5px 1px rgba(0, 0, 0, 0.5);
   border-radius: 25px;
+  margin-bottom: 10px;
 }
 
 @media only screen and (min-width: 1024px) {
@@ -124,18 +124,19 @@
  
 
   .meal-wrapper{
-    width:100%;
-    margin:0 auo;
+    width:80%;
+    margin:0 auto;
     margin-top:15px;
-    border-radius: 25px;
+    border-radius: 20px;
     overflow: hidden;
-    box-shadow: 0 3px 5px 1px rgba(0, 0, 0, 0.5);
+    box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.5);
   }
 
   .dates-and-titles{
   width:75%;
   padding:3px 0;
   margin: 0 auto;
+  margin-bottom: 5px;
   box-shadow: 0 3px 5px 1px rgba(0, 0, 0, 0.5);
   border-radius: 25px;
 }
