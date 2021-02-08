@@ -90,9 +90,7 @@ const sideTwo = {
   return (
     <div className={props.className} >
     
-      {/* <div className='serviceType-wrapper'>
-        <p className='serviceType'>{props.serviceType}</p>
-      </div> */}
+    
       
       <div className="meal-details-wrapper">
         <div className='entre-container'>

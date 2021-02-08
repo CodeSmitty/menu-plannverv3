@@ -70,12 +70,13 @@ const useFetchedDataForm = (currentWeekstart, currentWeekEnd) => {
 
                   const lunchStyle = {
                     background: `url(${serviceMealsByDays[dayName]?.lunch?.image})`,
-                    objectFit: "cover",
+                    objectFit:'cover',
                     backgroundSize: "cover",
                     backgroundPosition: "center",
                     backgroundRepeat: "no-repeat",
                     minHeight: "300px",
                     maxHeight: "300px",
+                    imageRendering: "-webkit-optimize-contrast",
                   };
                   const dinnerStyle = {
                     background: `url(${serviceMealsByDays[dayName]?.dinner?.image})`,
