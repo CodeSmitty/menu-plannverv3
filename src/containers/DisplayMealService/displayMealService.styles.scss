@@ -23,6 +23,7 @@
     width:98%;
     margin:0 auto;
     bottom:0;
+    padding:15px 0;
 }
 
 .diets-imgs-container{
@@ -50,13 +51,14 @@
 }
 
 .serviceType-wrapper{
+    padding:5px;
     padding-bottom:30px;
 }
 
 .serviceType {
     float:left;
   text-align: center;
-  
+  padding:52px;
   color:white;
   background-color: black;
   border-radius: 25px;
@@ -87,4 +89,13 @@
 }
 
 @media only screen and (min-width: 1024px) {
+}
+
+@media only screen and (max-width: 798px){
+    .displayMealService-wrapper{
+        
+    }
+    .meal-wrapper{
+        
+    }
 }
