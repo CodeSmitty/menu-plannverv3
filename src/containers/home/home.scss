@@ -1,38 +1,37 @@
 @import url("https://fonts.googleapis.com/css2?family=Alice&display=swap");
 
-
-
 .home-section {
-  margin: 50px auto;
+  // margin: 50px auto;
   width: 100%;
   max-width: 100%;
-  
+
   justify-content: center;
   font-family: "Alice", "Times New Roman", Times, serif;
   border-radius: 10px;
 }
 
+// .meal-wrapper {
+//   width: 80%;
+//   max-width: 80%;
 
-
-.meal-wrapper {
+//   flex:0 0 17%;
+// }
+.service-wrapper {
   width: 80%;
   max-width: 80%;
-  height: 100%;
-  
+  background-color: ghostwhite;
 }
 
 .service-container {
-  width:90%;
+  width: 90%;
   max-width: 90%;
-  margin:0 auto;
+  margin: 0 auto;
   display: flex;
   flex-flow: row nowrap;
-  justify-content: space-around;
-  overflow:hidden;
+  overflow: hidden;
   box-shadow: 0 3px 5px 1px rgba(0, 0, 0, 0.5);
   border-radius: 10px;
-  
- 
+
   // background-color: rgb(19, 42, 39);
 }
 
@@ -44,10 +43,10 @@
 }
 
 .weekly-btns {
-  padding:5px;
+  padding: 5px;
 
   margin: auto;
-  
+
   height: 30px;
 }
 
@@ -65,8 +64,6 @@
 //   color: bisque;
 // }
 
-
-
 .noservice-block {
   background-color: rgb(19, 42, 39);
   font-family: "Times New Roman", Times, serif;
@@ -77,15 +74,13 @@
 }
 
 .lunch-container-home,
-.dinner-container-home,
-.noservice-block {
+.dinner-container-home {
   position: relative;
-  max-height:400px;
-  height:300px;
+  max-height: 400px;
+  height: 300px;
   overflow: hidden;
   border: azure 1px solid;
   text-align: center;
-  flex: 0 0 14.28%;
   z-index: 1;
   border-bottom: rgb(119, 119, 119) 1px solid;
 }
@@ -94,8 +89,8 @@
   visibility: hidden;
 }
 
-.dates-and-titles{
-  width:20%;
+.dates-and-titles {
+  width: 50%;
   margin: 0 auto;
   box-shadow: 0 3px 5px 1px rgba(0, 0, 0, 0.5);
   border-radius: 25px;
@@ -122,31 +117,38 @@
 
 @media only screen and (max-width: 780px) {
   .home-section {
-  width:100%;
+    width: 100%;
   }
 
- 
+  .lunch-container-home {
+    box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.5);
+  }
 
-  .meal-wrapper{
-    width:80%;
-    margin:0 auto;
-    margin-top:15px;
+  .meal-wrapper {
+    width: 90%;
+    margin: 0 auto;
+    margin-top: 15px;
     border-radius: 20px;
     overflow: hidden;
     box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.5);
   }
 
-  .dates-and-titles{
-  width:75%;
-  padding:3px 0;
-  margin: 0 auto;
-  margin-bottom: 5px;
-  box-shadow: 0 3px 5px 1px rgba(0, 0, 0, 0.5);
-  border-radius: 25px;
-}
+  .service-wrapper {
+    width: 90%;
+    margin: 0 auto;
+    background-color: transparent;
+  }
+  .dates-and-titles {
+    width: 75%;
+    padding: 3px 0;
+    margin: 0 auto;
+    margin-bottom: 5px;
+    box-shadow: 0 3px 5px 1px rgba(0, 0, 0, 0.5);
+    border-radius: 25px;
+  }
 
   .service-container {
-    width:80%;
+    width: 80%;
     flex-flow: column nowrap;
     margin: 0 auto;
     border: none;

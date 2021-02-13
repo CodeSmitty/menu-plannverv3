@@ -20,7 +20,7 @@ const DisplayMealService = (props) => {
     backgroundPosition:'center'
   };
 
-  console.log(style)
+
 
 //console.log(props.mealData ?props.mealData[0]?.diets[1].glut : null)
  
@@ -97,7 +97,7 @@ const sideTwo = {
           
           <p className="entre-text home-entre-text">{props.mealData ?props?.mealData[0]?.entre :null}</p>
           <div className="diets-imgs-container">
-            {entreItems?.map((e, i) =>{ console.log(e) 
+            {entreItems?.map((e, i) =>{
               return (
              
                 <img className="diets-imgs" key={i} src={imageMap[e]} alt="e" />

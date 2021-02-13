@@ -9,14 +9,15 @@ class FireApi{
     }
 
     create(yearToDate, weekToDate, dateId, data ){
+        console.log(data)
 
-        return db().ref("mealService").child(yearToDate).child(weekToDate).child(dateId).set({data})
+        return db().ref("mealService").child(yearToDate).child(weekToDate).child(dateId).set(data)
     }
 
-    get(yearToDate, weekToDate, dateId){
-        return db().ref('/mealService')
+    get(references){
+        return db().ref(references)
     }
 
 }
 
-export default new FireApi;
+export default new FireApi();

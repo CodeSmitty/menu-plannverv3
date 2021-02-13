@@ -2,38 +2,36 @@
 
 .displayMealService-wrapper {
   // background-color: rgb(19, 42, 39);
-  width:100%;
-  position:absolute;
-  bottom:0;
-  height:200px;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  height: 200px;
   background: rgba(255, 253, 248, 0.575);
   overflow: auto;
   font-family: "Alice", sans-serif;
   color: rgb(0, 0, 0);
   font-size: 1rem;
 
-
-  &::-webkit-scrollbar{
-      width:2px;
+  &::-webkit-scrollbar {
+    width: 2px;
   }
-  
 }
 
-.meal-details-wrapper{
-    width:98%;
-    margin:0 auto;
-    bottom:0;
-    padding:15px 0;
+.meal-details-wrapper {
+  width: 98%;
+  margin: 0 auto;
+  bottom: 0;
+  padding: 15px 0;
 }
 
-.diets-imgs-container{
-    display:flex;
-    flex-flow:row nowrap;
+.diets-imgs-container {
+  display: flex;
+  flex-flow: row nowrap;
 }
 .diets-imgs {
- // filter: invert(0.7);
+  // filter: invert(0.7);
   width: 20px;
-  height:20px;
+  height: 20px;
 }
 
 .img-wrapper {
@@ -50,22 +48,22 @@
   object-fit: cover;
 }
 
-.serviceType-wrapper{
-    padding:5px;
-    padding-bottom:30px;
+.serviceType-wrapper {
+  padding: 5px;
+  padding-bottom: 30px;
 }
 
 .serviceType {
-    float:left;
+  float: left;
   text-align: center;
-  padding:52px;
-  color:white;
-  background-color: black;
+  padding: 52px;
+  color: white;
   border-radius: 25px;
-  font-size: .7em;
+  font-size: 0.7em;
   margin: 0;
   font-weight: 400;
   font-family: "Alice", sans-serif;
+  background-color: black;
 }
 
 .entre-container,
@@ -73,11 +71,11 @@
 .sideTwo-container,
 .description-container {
   //  box-shadow: 0 3px 5px 1px rgba(0, 0, 0, 0.5);
-  display:flex;
-  flex-flow:row nowrap;
+  display: flex;
+  flex-flow: row nowrap;
   justify-content: space-between;
   text-align: left;
-  width:100%;
+  width: 100%;
 }
 
 .home-entre-text {
@@ -91,11 +89,9 @@
 @media only screen and (min-width: 1024px) {
 }
 
-@media only screen and (max-width: 798px){
-    .displayMealService-wrapper{
-        
-    }
-    .meal-wrapper{
-        
-    }
+@media only screen and (max-width: 798px) {
+  .displayMealService-wrapper {
+  }
+  .meal-wrapper {
+  }
 }

@@ -10,41 +10,69 @@
   width:100%;
   display:flex;
   flex-flow:column nowrap;
-  margin:0;
+  margin:auto;
 
   
 }
 
+.form{
+   margin:0 auto;
+   box-shadow: 1px 1px 10px 1px rgb(167, 167, 167);
+   margin-bottom:50px;
+   padding:20px;
+   width:100%;
+   border-radius: 15px;
+   background-color: ghostwhite;
+}
+
+.svc-type{
+  display: inline-grid;
+  width: 1em;
+  height: 1em;
+  border-radius: 0.25em;
+  border: 0.1em solid currentColor;
+}
+
+.serviceType-checkboxes{
+  display:flex;
+  flex-flow:row nowrap;
+  justify-content: flex-end;
+  padding:5px;
+  background-color: ghostwhite;
+}
 
 
 .form-container {
-  width:500px;
   display:flex;
-  flex-flow:row wrap;
- box-shadow: 1px 1px 10px 1px rgb(167, 167, 167);
-  margin-left:150px;
+  flex-flow:column nowrap;
+  justify-content: flex-start;
+  
   
 }
 
 .entre-form{
-  width:80%;
-  display:flex;
-  flex-flow:column wrap;
-  margin-top:50px;
-  flex:1 0 50%;
-  padding:20px 0;
+ padding:5px;
+ display:flex;
+ justify-content: flex-start;
+}
+
+.input-element-wrapper{
+  width:100%;
+  display: flex;
+  justify-content: flex-start;
+  padding:5px 0;
 }
 
 .input-text, .description{
-  height:35px;
-  width:75%;
-  margin:0 auto;
+  height:30px;
+  width:90%;
+  border-radius: 3px;
+  border:none;
+  border-bottom: 2px solid rgb(10, 10, 10);
 }
 
+
 .submit-btn{
-  width:50%;
-  height:20px;
-  
  background-color: #000;
   border-radius: 4rem;
   color: #fff;
@@ -62,7 +90,20 @@
 
 
 
+.diets-checkbox{
+  width:90%;
+  display:flex;
+  flex-flow:row nowrap;
+  justify-content: flex-end;
+}
 
+.btn-uploader-wrapper{
+  width:90%;
+  display:flex;
+  flex-flow:row nowrap;
+  justify-content: space-between;
+  padding-top:30px;
+}
 
 
 
@@ -73,21 +114,16 @@
 
 
 @media all and (max-width: 800px) and (max-width:400px) {
- .container-box{
-  display:flex;
-  flex-flow: row nowrap;
-  width:90%;
- }
+.form{
+  width:80%;
+}
+.diets-checkbox{
+  width:100%;
+  justify-content: center;
+  margin:0;
+}
 
- input{
-   width:15%;
-   margin:5px;
-   padding:5px;
- }
- .svc-type{
-   margin:10 20px;
-
- }
+ 
 }
 
 

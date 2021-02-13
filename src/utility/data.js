@@ -3,7 +3,7 @@
 
 
 export const createData = (dateId, yearToDate, weekToDate, filtered, url, state)=>{
-const data = {
+return {
   mealId: dateId,
   year: yearToDate,
   week:weekToDate,
@@ -76,7 +76,7 @@ const data = {
   ],
 };
 
-return data;
+
 
 }
 
