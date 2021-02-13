@@ -15,10 +15,10 @@ const ImageSelector = (props) => (
         Select Image
       </label>
     </div>
-    <div >
+    {/* <div >
       {props.progress > 0 ? <progress value={props.progress} max="100" /> : ""}
       <p style={{ color: "red" }}>{props.error}</p>
-    </div>
+    </div> */}
   </div>
 );
 

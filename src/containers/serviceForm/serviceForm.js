@@ -57,7 +57,7 @@ const ServiceForm = (props) => {
           />
         </div>
 
-        <div key={`diets${i}`} className="diets">
+        <div key={`diets${i}`} className="diets-checkbox">
           <Inputs
             elType={x.inputForm.checkbox?.veg?.elementType}
             elementConfig={x.inputForm.checkbox?.veg?.elementConfig}
@@ -101,7 +101,6 @@ const ServiceForm = (props) => {
   return (
     <div className="container-box">
       <form onSubmit={(e) => handleSubmit(e, image)} className="form" action="">
-        {mapInputs}
         <div class="serviceType-checkboxes">
           <input
             className="svc-type"
@@ -123,15 +122,15 @@ const ServiceForm = (props) => {
             type="checkbox"
           />
           <label>Dinner</label>
+        </div>
+        {mapInputs}
+        <div className='btn-uploader-wrapper'>
           <ImageSelector
             error={error}
             handleChange={handleChange}
             className="uploader"
           />
-          <button
-            className="submit-btn"
-            onClick={(e) => handleSubmit(e, image)}
-          >
+          <button className="submit-btn" onClick={(e) => handleSubmit(e, image)}>
             submit
           </button>
         </div>

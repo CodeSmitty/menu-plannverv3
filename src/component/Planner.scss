@@ -1,61 +1,184 @@
-.date-arrow{
-    width:100%;
-    padding:0;
-    display:flex;
-    flex-flow:row wrap;
-    height:40px;
+.react-calendar {
+  margin: 0 50px;
+  min-width: 200px;
+  width: 20%;
+  padding: 5px;
+  font-size: 0.9rem;
+  box-shadow: 0 3px 5px 1px rgba(0, 0, 0, 0.5);
 }
 
-.form-preview-container{
-    width:100%;
-    display:flex;
-    flex-flow:row nowrap;
+.serviceform-container {
+  width: 90%;
+  margin: 0 auto;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  box-shadow: 0 3px 5px 1px rgba(0, 0, 0, 0.5);
+  border-radius: 15px;
+  background-color: #7e3f62;
 }
 
-.planner-container{
-   width:100%;
-    margin-top:150px;
-    display:flex;
-    flex-flow:row wrap;
+.react-calendar__tile:focus {
+  background-color: rgba(6, 59, 58, 0.719);
 }
 
-.serviceform-container{
-    padding-right:100px;
+.today {
+  background-color: rgba(6, 59, 58, 0.719);
 }
 
-
-
-
-
-
-.titles-wrapper{
-    flex: 1 1 auto;
-    
+.calendar-and-preview-container {
+  width: 100%;
+  height: 100px;
+  margin-bottom: 100px;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
 }
 
-.planner-title, .date-arrow{
-    flex:0 0 auto;
-    margin-left:10%;
+.home-wrapper {
+  transform: scale(0.75);
 }
 
-.titles-wrapper{
-    display:flex;
-    flex-flow:row wrap;
-    width:40%;
-    height:40px;
-    padding:0;
-    margin:0;
+.date-arrows {
+}
+.date-arrows-wrapper {
+  width: 100%;
+  padding: 0;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  font-size: 1.2rem;
 }
 
+.form-preview-container {
+  width: 100%;
+  display: flex;
+  flex-flow: row nowrap;
+}
 
+.planner-container {
+  width: 100%;
+}
 
-button{
-    font-size:23px;
-    background:transparent;
-    border:none;
+.home-wrapper {
+  width: 100%;
+}
 
-    &:hover{
-        cursor: pointer;
+.serviceform-dates-wrapper {
+  margin: 0 auto;
+  height: 600px;
+  display: flex;
+  flex-flow: column nowrap;
+  padding: 0;
+}
+
+.calendar-wrapper {
+  margin: 0 auto;
+  margin-bottom: 50px;
+}
+
+.calendar-col {
+  margin: 0 auto;
+  width: 100%;
+  height: 100px;
+}
+
+.arrow_and_form_wrapper {
+  width: 80%;
+  padding: 25px;
+  margin: auto;
+}
+
+.arrow_and_form_wrapper,
+.home-wrapper {
+  flex: 0 0 50%;
+}
+
+.planner-title {
+  flex: 0 0 auto;
+  margin-left: 10%;
+}
+
+.titles-wrapper {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+  padding: 0;
+  margin: 0;
+}
+
+.date-btns {
+  padding: 0 5px;
+  margin: 0;
+  font-size: 1.5rem;
+  height: fit-content;
+}
+
+button {
+  padding: 2px;
+  background: transparent;
+  border: none;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+@media screen and (max-width: 798px) {
+    .arrow_and_form_wrapper{
+        width:100%;
     }
-}
 
+    .date-arrows{
+        width:100%;
+    }
+
+    .date-arrows-wrapper{
+        font-size: .9rem;
+        padding:0;
+        margin:0;
+        padding-bottom:15px;
+    }
+  .serviceform-container {
+    flex-flow: column wrap;
+    border-radius: 20px;
+  }
+
+  .home-wrapper {
+    transform: none;
+  }
+  .home-section {
+    width: 100%;
+  }
+
+  .form {
+    width: 100%;
+    border-radius:15px;
+  }
+
+  .dates-and-titles {
+    width: 75%;
+    padding: 3px 0;
+    margin: 0 auto;
+    margin-bottom: 5px;
+    box-shadow: 0 3px 5px 1px rgba(0, 0, 0, 0.5);
+    border-radius: 25px;
+  }
+
+  .preview-service-container {
+    width: 80%;
+    flex-flow: column nowrap;
+    margin: 0 auto;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    background-color: transparent;
+  }
+
+  .lunch-container-home,
+  .dinner-container-home {
+    width: 100%;
+    height: auto;
+    margin: auto;
+  }
+}

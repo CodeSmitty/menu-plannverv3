@@ -5,24 +5,28 @@ const Inputs = (props) => {
   switch (props.elType) {
     case "input":
       inputElement = (
-        <input
-          className={props.className}
-          value={props.value}
-          name={props.name}
-          onChange={props.changed}
-          {...props.elementConfig}
-        />
+        <div className="input-element-wrapper">
+          <input
+            className={props.className}
+            value={props.value}
+            name={props.name}
+            onChange={props.changed}
+            {...props.elementConfig}
+          />
+        </div>
       );
       break;
     case "checkbox":
       inputElement = (
-        <input
-          type="checkbox"
-          className={props.className}
-          onChange={props.changed}
-          checked={props.checked}
-          {...props.elementConfig}
-        />
+        <div className="input-checkbox-wrapper">
+          <input
+            type="checkbox"
+            className={props.className}
+            onChange={props.changed}
+            checked={props.checked}
+            {...props.elementConfig}
+          />
+        </div>
       );
       break;
 
@@ -37,7 +41,7 @@ const Inputs = (props) => {
       );
   }
 
-  return <div>{inputElement}</div>;
+  return inputElement;
 };
 
 export default Inputs;

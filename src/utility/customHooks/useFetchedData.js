@@ -7,6 +7,7 @@ import DisplayMealService from "../../containers/DisplayMealService/displayMealS
 const useFetchedDataForm = (currentWeekstart, currentWeekEnd) => {
   const db = () => firebase.database();
   const [currentMeals, setCurrentMeals] = useState();
+  const [retrievedData, setRetrievedData] = useState()
   const getCurrentDaysOfWeek = () => {
     let days = [];
     let day = currentWeekstart;
@@ -20,16 +21,17 @@ const useFetchedDataForm = (currentWeekstart, currentWeekEnd) => {
   const fetchMealData = (yearToDate, weekToDate) => {
     return db()
       .ref(`mealService/${yearToDate}/${weekToDate}`)
-      .once("value", (snap) => {
+      .on("value", (snap) => {
         const fetchedMeals = snap?.val();
         let daysOfWeek = getCurrentDaysOfWeek();
         const mealsArr = [];
-
+        setRetrievedData(fetchedMeals)
         daysOfWeek.filter((day) => {
           const dayOfWeek = handleMomentDate(day, "YYYY-MM-DD");
           const meals = fetchedMeals
             ? Object.values(fetchedMeals).filter(
-                (ser) => ser.mealId === dayOfWeek
+                (ser) => {
+                  return  ser.mealId === dayOfWeek}
               )
             : null;
           const mealsByDayOfTheWeek = {
@@ -38,14 +40,16 @@ const useFetchedDataForm = (currentWeekstart, currentWeekEnd) => {
           mealsArr.push(mealsByDayOfTheWeek);
         });
 
+       
         const mealsOfTheDay = mealsArr
           ? mealsArr.map((meal, i) => {
               let serviceMealsByDays;
               let meals;
               Object.keys(meal).forEach((key) => {
+              
                 const dayName = handleMomentDate(
                   key,
-                  "dddd"
+                  "ddd"
                 ).toLocaleLowerCase();
                 const lunch =
                   meal && meal[key]
@@ -69,77 +73,86 @@ const useFetchedDataForm = (currentWeekstart, currentWeekEnd) => {
                   };
 
                   const lunchStyle = {
-                    background: `url(${serviceMealsByDays[dayName]?.lunch?.image})`,
-                    objectFit:'cover',
-                    backgroundSize: "cover",
-                    backgroundPosition: "center",
-                    backgroundRepeat: "no-repeat",
+                    background: `url(${serviceMealsByDays[dayName]?.lunch?.image}) center center / cover no-repeat`,
+                    backgroundSize:"cover",
                     minHeight: "300px",
                     maxHeight: "300px",
                     imageRendering: "-webkit-optimize-contrast",
                   };
                   const dinnerStyle = {
-                    background: `url(${serviceMealsByDays[dayName]?.dinner?.image})`,
-                    objectFit: "cover",
-                    backgroundPosition: "center",
-                    backgroundRepeat: "no-repeat",
+                    background: `url(${serviceMealsByDays[dayName]?.dinner?.image}) center center / cover no-repeat`,
+                    
                     backgroundSize: "cover",
                     minHeight: "300px",
                     maxHeight: "300px",
+                    imageRendering: "-webkit-optimize-contrast",
                   };
 
-                  meals = (
-                    <div key={i} className="meal-wrapper">
-                      <p className="dayNames">{dayName}</p>
-                      <div className="lunch-dinner-container">
+                  meals =
+                    serviceMealsByDays[dayName]?.lunch?.mealItems ||
+                    serviceMealsByDays[dayName]?.dinner?.mealItems ? (
+                      <div key={i} className="service-wrapper">
                         {serviceMealsByDays[dayName]?.lunch?.mealItems ? (
-                          <div
-                            style={lunchStyle}
-                            className="lunch-container-home"
-                          >
-                            <div className="serviceType-wrapper">
-                              <p className="serviceType" style={{padding: "10px 2px"}}>lunch</p>
+                          <div className="meal-wrapper">
+                            <div
+                              style={lunchStyle}
+                              className="lunch-container-home"
+                            >
+                              <div className="serviceType-wrapper">
+                                <p
+                                  className="serviceType"
+                                  style={{ padding: "7px 5px" }}
+                                >
+                                  {dayName}
+                                </p>
+                              </div>
+                              <DisplayMealService
+                                className="displayMealService-wrapper"
+                                serviceType={
+                                  serviceMealsByDays[dayName]?.lunch
+                                    ?.serviceType
+                                }
+                                mealData={
+                                  serviceMealsByDays[dayName]?.lunch?.mealItems
+                                }
+                                imgs={serviceMealsByDays[dayName]?.lunch?.image}
+                              />
                             </div>
-                            <DisplayMealService
-                              className="displayMealService-wrapper"
-                              serviceType={
-                                serviceMealsByDays[dayName]?.lunch?.serviceType
-                              }
-                              mealData={
-                                serviceMealsByDays[dayName]?.lunch?.mealItems
-                              }
-                              imgs={serviceMealsByDays[dayName]?.lunch?.image}
-                            />
                           </div>
-                        ) : (
-                          <div className="noservice-block">no service</div>
-                        )}
+                        ) : null}
                         {serviceMealsByDays[dayName]?.dinner?.mealItems ? (
-                          <div
-                            className="dinner-container-home"
-                            style={dinnerStyle}
-                          >
-                            <div className='serviceType-wrapper'>
-        <p className='serviceType' style={{padding: "12px 2px"}}>dinner</p>
-      </div>
-                            <DisplayMealService
-                              className="displayMealService-wrapper"
-                              serviceType={
-                                serviceMealsByDays[dayName]?.dinner?.serviceType
-                              }
-                              mealData={
-                                serviceMealsByDays[dayName]?.dinner?.mealItems
-                              }
-                              imgs={serviceMealsByDays[dayName]?.dinner?.image}
-                            />
+                          <div className="meal-wrapper">
+                            <div
+                              className="dinner-container-home"
+                              style={dinnerStyle}
+                            >
+                              <div className="serviceType-wrapper">
+                                <p
+                                  className="serviceType"
+                                  style={{ padding: "12px 2px" }}
+                                >
+                                  dinner
+                                </p>
+                              </div>
+                              <DisplayMealService
+                                className="displayMealService-wrapper"
+                                serviceType={
+                                  serviceMealsByDays[dayName]?.dinner
+                                    ?.serviceType
+                                }
+                                mealData={
+                                  serviceMealsByDays[dayName]?.dinner?.mealItems
+                                }
+                                imgs={
+                                  serviceMealsByDays[dayName]?.dinner?.image
+                                }
+                              />
+                            </div>
                           </div>
-                        ) : (
-                          <div className="noservice-block">no service </div>
-                        )}
+                        ) : null}
                       </div>
-                    </div>
-                  );
-                } else {
+                    ) : null;
+                } else if(!meal) {
                   serviceMealsByDays = {};
                 }
               });
@@ -150,8 +163,8 @@ const useFetchedDataForm = (currentWeekstart, currentWeekEnd) => {
         setCurrentMeals(mealsOfTheDay);
       });
   };
-
-  return [fetchMealData, currentMeals];
+  
+  return [fetchMealData, currentMeals, retrievedData];
 };
 
 export default useFetchedDataForm;
