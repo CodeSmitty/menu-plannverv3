@@ -56,12 +56,13 @@
 .serviceType {
   float: left;
   text-align: center;
-  padding: 52px;
-  color: white;
-  border-radius: 25px;
-  font-size: 0.7em;
-  margin: 0;
-  font-weight: 400;
+  color: whitesmoke;
+  border-radius: 50%;
+  width:40px;
+  height:40px;
+  padding:11px 0 ;
+  font-size: .8rem;
+  font-weight: 500;
   font-family: "Alice", sans-serif;
   background-color: black;
 }

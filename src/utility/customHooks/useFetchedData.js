@@ -8,6 +8,7 @@ const useFetchedDataForm = (currentWeekstart, currentWeekEnd) => {
   const db = () => firebase.database();
   const [currentMeals, setCurrentMeals] = useState();
   const [retrievedData, setRetrievedData] = useState()
+  const [retrivedDataForPreview, setRetrievedDataForPreview] = useState()
   const getCurrentDaysOfWeek = () => {
     let days = [];
     let day = currentWeekstart;
@@ -18,14 +19,27 @@ const useFetchedDataForm = (currentWeekstart, currentWeekEnd) => {
     return days;
   };
 
+  const retrieveOnLoadData = (yearToDate, weekToDate) =>{
+    let data;
+   db()
+      .ref(`mealService/${yearToDate}/${weekToDate}`)
+      .once("value", (snap) =>{
+        data = snap.val()
+        setRetrievedData(snap?.val())
+      })
+      return data;
+  }
+
+
   const fetchMealData = (yearToDate, weekToDate) => {
     return db()
       .ref(`mealService/${yearToDate}/${weekToDate}`)
       .on("value", (snap) => {
         const fetchedMeals = snap?.val();
         let daysOfWeek = getCurrentDaysOfWeek();
+
+        setRetrievedDataForPreview(fetchedMeals)
         const mealsArr = [];
-        setRetrievedData(fetchedMeals)
         daysOfWeek.filter((day) => {
           const dayOfWeek = handleMomentDate(day, "YYYY-MM-DD");
           const meals = fetchedMeals
@@ -98,13 +112,13 @@ const useFetchedDataForm = (currentWeekstart, currentWeekEnd) => {
                               style={lunchStyle}
                               className="lunch-container-home"
                             >
-                              <div className="serviceType-wrapper">
-                                <p
+                              <div  className="serviceType-wrapper">
+                                <div
                                   className="serviceType"
-                                  style={{ padding: "7px 5px" }}
+                                  
                                 >
-                                  {dayName}
-                                </p>
+                                  <p className='dayName'>{dayName}</p>
+                                </div>
                               </div>
                               <DisplayMealService
                                 className="displayMealService-wrapper"
@@ -163,8 +177,15 @@ const useFetchedDataForm = (currentWeekstart, currentWeekEnd) => {
         setCurrentMeals(mealsOfTheDay);
       });
   };
-  
-  return [fetchMealData, currentMeals, retrievedData];
+
+  const returnedFunctions = {
+    fetcheMealData: (yearToDate, weekToDate) => fetchMealData(yearToDate, weekToDate),
+    currentMeals: currentMeals,
+    retrievedData: [retrievedData, setRetrievedData],
+    retrievedOnLoadData: retrieveOnLoadData,
+    retrievedDataForPreview: [retrivedDataForPreview, setRetrievedDataForPreview],
+  };
+  return [fetchMealData, currentMeals, retrievedData, setRetrievedData,retrieveOnLoadData, retrivedDataForPreview, setRetrievedDataForPreview];
 };
 
 export default useFetchedDataForm;

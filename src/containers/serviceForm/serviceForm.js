@@ -1,20 +1,45 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./serviceform.scss";
 import { useStore } from "../../utility/reducers";
 import ImageSelector from "../ImageSelector/ImageSelector";
 //import axios from "../../utility/axios.orders";
 import { inputFormData } from "../../utility/inputElementsData";
 import useSubmitForm from "../../utility/customHooks/useSubmitForm";
-import moment from 'moment'
+import {
+  handleDateFormats,
+  handleEditFromData,
+  handleValue,
+} from "../../utility/utility.functions";
+import useFetchedDataForm from "../../utility/customHooks/useFetchedData";
 import Inputs from "./inputs/inputs";
 
 const ServiceForm = (props) => {
   const [state, dispatch] = useStore();
   const [image, setImage] = useState(null);
   const [error, setError] = useState("");
+  const [
+    currentWeekStart,
+    currentWeekEnd,
+    weekToDate,
+    yearToDate,
+    currMoment,
+  ] = handleDateFormats(props.dates);
 
+  const [dataPreview, setDataPreview] = useState();
 
-  const [handleSubmit] = useSubmitForm(props);
+  const [handleSubmit] = useSubmitForm(props, dispatch);
+  const [
+    fetchMealData,
+    currentMeals,
+    retrievedData,
+    setRetrievedData,
+    retrieveOnLoadData,
+    retrievedDataForPreview,
+    setRetrievedDataForPreview,
+  ] = useFetchedDataForm(currentWeekStart, currentWeekEnd);
+
+  const [lunch, setLunch] = useState(false);
+  const [dateChange, setDateChange] = useState();
 
   function findInputElements(dataInput) {
     let elArr = [];
@@ -25,24 +50,56 @@ const ServiceForm = (props) => {
     return elArr;
   }
 
+  useEffect(
+    (e) => {
+      fetchMealData(yearToDate, weekToDate);
+      const fetchedData = retrieveOnLoadData(yearToDate, weekToDate);
+      setDataPreview(fetchedData);
+      setDateChange(props.dates);
+    },
+    [props.dates, state]
+  );
+
+  // if(props.dateChanged === true){
+  //   console.log(props.dateChanged)
+
+  // }
+
   function handleCheckboxChange(e, data) {
+    
+
     return dispatch({
       type: data?.id?.toUpperCase(),
       payload: e,
       servType: data.id,
     });
+    
+    
+
+   
   }
 
-  const handleInputTextChange = (e, data) => {
+  function handleLunchDinnerCheckbox(e){
+    const existedMeals = handleEditFromData(
+      props.dates,
+      state,
+      dataPreview,
+      dispatch
+    );
+
+    console.log(existedMeals)
+    handleValue(e, existedMeals, dispatch, state);
+  }
+
+  const handleInputTextChange = (e, data, fetchedData) => {
     dispatch({
       type: data.id.toUpperCase() + "_TEXT",
       payload: e.target.value,
       servType: data.id,
     });
   };
-
+  //retrievedData ? existedMeals? existedMeals[x.id] :state[x.id].value: state[x.id].value
   let findInputs = findInputElements(inputFormData);
-
   let mapInputs = findInputs.map((x, i) => {
     return (
       <div key={`entre${i}`} className="form-container">
@@ -105,32 +162,37 @@ const ServiceForm = (props) => {
           <input
             className="svc-type"
             onChange={(e) => {
-              dispatch({ type: "LUNCH", payload: e.target.name });
+              handleLunchDinnerCheckbox(e);
             }}
-            checked={state.serviceType.lunch}
+            checked={state?.serviceType?.lunch}
             name="lunch"
             type="checkbox"
           />
           <label>Lunch</label>
           <input
             className="svc-type"
-            onChange={(e) => {
-              dispatch({ type: "DINNER", payload: e.target.name });
-            }}
-            checked={state.serviceType.dinner}
+            onChange={(e) => handleLunchDinnerCheckbox(e)}
+            checked={state?.serviceType?.dinner}
             name="dinner"
             type="checkbox"
           />
           <label>Dinner</label>
         </div>
         {mapInputs}
-        <div className='btn-uploader-wrapper'>
+        <div className="btn-uploader-wrapper">
           <ImageSelector
             error={error}
             handleChange={handleChange}
             className="uploader"
           />
-          <button className="submit-btn" onClick={(e) => handleSubmit(e, image)}>
+          <button
+            className="submit-btn"
+            onClick={(e) => {
+              state?.serviceType?.dinner || state?.serviceType?.lunch === true
+                ? handleSubmit(e, image)
+                : alert("Please Select a Service Type");
+            }}
+          >
             submit
           </button>
         </div>

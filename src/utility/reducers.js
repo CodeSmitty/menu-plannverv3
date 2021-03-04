@@ -44,7 +44,7 @@ const service = {
 
 const reducer = (state = service, action) => {
   switch (action.type) {
-    case "ENTRE" :
+    case "ENTRE":
       const servType = action.servType;
 
       return {
@@ -124,6 +124,10 @@ const reducer = (state = service, action) => {
           dinner: false,
           [action.payload]: !state.serviceType[action.payload],
         },
+        [action.servType]: {
+          ...state[action.servType],
+          value: action.loadedData,
+        },
       };
     case "DINNER":
       return {
@@ -133,15 +137,38 @@ const reducer = (state = service, action) => {
           lunch: false,
           [action.payload]: !state.serviceType[action.payload],
         },
+        [action.servType]: {
+          ...state[action.servType],
+          value: action.loadedData,
+        },
       };
-    case "reset":
-      return { ...state };
+    case "RESET":
+      console.log('reset')
+      if (action.type === "RESET") {
+        return service;
+      }
+      break;
     case "SUBMITTED":
       return {
         ...state,
         state: action.payload,
       };
 
+    case "GET_DATA":
+      // '"{
+      //   ...state,
+      //   [action.servType]: {
+      //     ...state[action.servType],
+      //     value: action.payload,
+      //   }"'
+      console.log("hello");
+      return {
+        ...state,
+        [action.servType]: {
+          ...state[action.servType],
+          value: action.payload,
+        },
+      };
     default:
       return state;
   }

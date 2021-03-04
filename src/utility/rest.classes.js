@@ -9,14 +9,23 @@ class FireApi{
     }
 
     create(yearToDate, weekToDate, dateId, data ){
-        console.log(data)
+            
 
         return db().ref("mealService").child(yearToDate).child(weekToDate).child(dateId).set(data)
     }
 
     get(references){
-        return db().ref(references)
+        let newData;
+
+       return new Promise((resolve, reject)=>{
+            db().ref(references).once('value', snap =>{
+                resolve(snap.val())
+            })
+        }).then(data=>data)
+       
     }
+
+    
 
 }
 

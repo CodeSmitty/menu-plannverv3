@@ -4,25 +4,33 @@ import Preview from "../containers/preview/preview";
 import moment from "moment";
 import "./Planner.scss";
 import Calendar from 'react-calendar'
-import Home from '../containers/home/home';
+import {useStore} from '../utility/reducers';
 
 // import "react-calendar/dist/Calendar.css";
 
 const Planner = () => {
   const [date, setDate] = useState(moment());
+  const [dateChange,setDateChange] = useState(false)
+  const [state, dispatch] = useStore()
 
   const onSelect = (e) =>{
-    console.log(moment(e))
     setDate(moment(e))
+    
+    dispatch({ type: "RESET" });
   }
-  
+
+
 
   const prevDay = () => {
     setDate(moment(date).subtract(1, "days"));
+    setDateChange(true)
+    dispatch({type:'RESET'})
   };
 
   const nextDay = () => {
     setDate(moment(date).add(1, "days"));
+    setDateChange(true)
+    dispatch({type:'RESET'})
   };
 
   return (
@@ -65,11 +73,9 @@ const Planner = () => {
                   </div>
                 </div>
                 <ServiceForm
-                  dateId={date.format("MMM Do YY")}
-                  dates={date.format("YYYY-MM-DD")}
-                  weekId={date.format("YYYY-W")}
+                  dates={date}
                   datesTree={date}
-                  dateWeek={date}
+                  dateChanged={dateChange}
                 />
               </div>
               <div className="home-wrapper">

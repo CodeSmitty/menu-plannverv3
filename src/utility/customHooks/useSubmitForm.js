@@ -6,7 +6,7 @@ import moment from 'moment'
 import {createData} from '../data';
 import FireApi from '../rest.classes';
 
-const useSubmitForm = (props) => {
+const useSubmitForm = (props, dispatch) => {
   const [state] = useStore();
   //const [progress, setProgress] = useState(0);
   const [error, setError] = useState("");
@@ -15,7 +15,7 @@ const useSubmitForm = (props) => {
   const weekToDate = `week_0${moment(props.datesTree).week()}`;
   
 
-  const handleSubmit = (e, image) => {
+  const handleSubmit = (e, image, isEdit) => {
     e.preventDefault();
 
     if (image) {
@@ -34,7 +34,7 @@ const useSubmitForm = (props) => {
             .getDownloadURL()
             .then((url) => {
               // dispatch({type:'IMAGE', payload:url})
-              const value = state.serviceType;
+              const value = state?.serviceType;
               const keys = Object.keys(value);
               var filtered = keys.filter(function (key) {
                 return value[key];
@@ -90,11 +90,13 @@ const useSubmitForm = (props) => {
             });
         }
       );
+      dispatch({type:'RESET'})
     } else {
+      alert('Please Add an Image')
       console.log(error);
     }
 
-   
+    
   };
 
   return [handleSubmit];
