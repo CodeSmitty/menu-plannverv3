@@ -88,43 +88,49 @@ const sideTwo = {
   const sideTwoItems = arrReducer(sideTwo);
 
   return (
-    <div className={props.className} >
-    
-    
-      
+    <div className={props.className}>
       <div className="meal-details-wrapper">
-        <div className='entre-container'>
-          
-          <p className="entre-text home-entre-text">{props.mealData ?props?.mealData[0]?.entre :null}</p>
+        <div className="entre-container">
+          <p
+            onClick={(e) => {
+              console.log(e.target);
+            }}
+            className="entre-text home-entre-text"
+          >
+            {props.mealData ? props?.mealData[0]?.entre : null}
+          </p>
           <div className="diets-imgs-container">
-            {entreItems?.map((e, i) =>{
+            {entreItems?.map((e, i) => {
               return (
-             
                 <img className="diets-imgs" key={i} src={imageMap[e]} alt="e" />
-              
-            )})}
+              );
+            })}
           </div>
         </div>
-        <div className='sideOne-container'>
-          <p className="sideOne-text home-sideOne-text">{props.mealData ?props?.mealData[1]?.sideOne:null}</p>
+        <div className="sideOne-container">
+          <p className="sideOne-text home-sideOne-text">
+            {props.mealData ? props?.mealData[1]?.sideOne : null}
+          </p>
           <div className="diets-imgs-container">
             {sideOneItems?.map((e, i) => (
-              
-                <img className='diets-imgs' key={i} src={imageMap[e]} alt="e" />
-             
+              <img className="diets-imgs" key={i} src={imageMap[e]} alt="e" />
             ))}
           </div>
         </div>
         <div className="sideTwo-container">
-          <p className="sideTwo-text home-sideTwo-text">{props.mealData ? props?.mealData[2]?.sideTwo:null}</p>
-          <div className='diest-imgs-container'>
+          <p className="sideTwo-text home-sideTwo-text">
+            {props.mealData ? props?.mealData[2]?.sideTwo : null}
+          </p>
+          <div className="diest-imgs-container">
             {sideTwoItems?.map((e, i) => (
               <img className="diets-imgs" key={i} src={imageMap[e]} alt="e" />
             ))}
           </div>
         </div>
-        <div className='description-container'>
-          <p className="description-text home-description-text">{props.mealData ? props?.mealData[3]?.description :null}</p>
+        <div className="description-container">
+          <p className="description-text home-description-text">
+            {props.mealData ? props?.mealData[3]?.description : null}
+          </p>
         </div>
       </div>
     </div>

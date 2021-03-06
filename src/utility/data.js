@@ -4,11 +4,11 @@
 
 export const createData = (dateId, yearToDate, weekToDate, filtered, url, state)=>{
 return {
-  mealId: dateId,
-  year: yearToDate,
-  week:weekToDate,
-  serviceType: filtered,
-  image: url,
+  mealId: dateId ||null,
+  year: yearToDate || null,
+  week:weekToDate || null,
+  serviceType: filtered || null,
+  image: url || null,
   mealItems: [
     {
       entre: state?.entre?.value,

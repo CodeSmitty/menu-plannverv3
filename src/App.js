@@ -21,6 +21,7 @@ function App() {
         <Store>
           <Header />
           {routes}
+          
         </Store>
       </BrowserRouter>
     </div>
