@@ -20,7 +20,7 @@ function App() {
       <BrowserRouter>
         <Store>
           <Header />
-          <Planner />
+          {routes}
           
         </Store>
       </BrowserRouter>
