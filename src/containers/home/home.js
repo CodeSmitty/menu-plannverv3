@@ -59,7 +59,7 @@ const Home = () => {
 
 
     
-  }, [startOfCurrentWeek, currentMeals]);
+  }, [startOfCurrentWeek]);
 
   return (
     <div className="home-section">
